@@ -10,4 +10,9 @@ public class UserInfo {
         return success;
     }
 
+    public static boolean check(String login, String password) {
+        boolean success = true;
+        return success;
+    }
+
 }

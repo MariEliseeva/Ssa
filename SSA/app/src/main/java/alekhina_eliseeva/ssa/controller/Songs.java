@@ -14,6 +14,7 @@ public class Songs {
     }
 
     public static boolean getSong(Integer ID) {
-        return true;
+        boolean success = true;
+        return success;
     }
 }
