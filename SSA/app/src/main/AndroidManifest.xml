@@ -16,6 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SignUp" />
+        <activity android:name=".LogIn" />
+        <activity android:name=".Menu" />
+        <activity android:name=".ChooseSong" />
+        <activity android:name=".Top" />
+        <activity android:name=".Applications" />
+        <activity android:name=".PlaySong"></activity>
     </application>
 
 </manifest>
