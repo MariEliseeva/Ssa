@@ -5,4 +5,14 @@ package alekhina_eliseeva.ssa.controller;
  */
 
 public class UserInfo {
+    public static boolean signUp(String login, String password) {
+        boolean success = true;
+        return success;
+    }
+
+    public static boolean check(String login, String password) {
+        boolean success = true;
+        return success;
+    }
+
 }
