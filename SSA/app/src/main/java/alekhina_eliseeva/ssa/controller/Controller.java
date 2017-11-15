@@ -1,67 +1,53 @@
 package alekhina_eliseeva.ssa.controller;
 
-import android.util.Pair;
-
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- * Created by mari on 06.11.17.
- */
-
 public class Controller {
-    /**
-     * Add new login and password to data base
-     * @param login new login
-     * @param password password
-     * @return success or not
-     */
     public boolean signUp(String login, String password) {
-        return UserInfo.signUp(login, password);
+        boolean result;
+        try {
+            result = UserInfoDataBase.addUser(login, password);
+        } catch (SQLException e) {
+            return false;
+        }
+        userName = login;
+        return result;
     }
 
     private String userName; //login
     private int userType; //first or second player
 
-    /**
-     * Checks the password is correct and remember user's name.
-     * @param login login
-     * @param password password to check
-     * @return logged in or not
-     */
     public boolean logIn(String login, String password) {
-        boolean result = UserInfo.check(login, password);
+        boolean result = false;
+        try {
+            result = UserInfoDataBase.checkPassword(login, password);
+        } catch (SQLException e) {
+            return false;
+        }
         if (result) userName = login;
         return result;
     }
 
-    Object secondPlayer; // connection with another player
-    /**
-     * Connects to friend using WiFi address.
-     * @param address adress to connect
-     * @return success or not
-     */
-    public boolean connectWiFi(String address) {
-        userType = 0;
-        secondPlayer = LocalNetwork.connect(address);
-        return (secondPlayer != null);
+    public ArrayList<RatingLine> getRating() {
+        try {
+            return UserInfoDataBase.getRating();
+        } catch (SQLException e) {
+            return null;
+        }
     }
 
-    /**
-     * Co
-     * @return
-     */
-    public boolean confirmConnection() {
-        userType = 1;
-        secondPlayer = LocalNetwork.confirmConnection();
-        return (secondPlayer != null);
+    public boolean changeScore(int score) {
+        try {
+            UserInfoDataBase.changeScore(userName, score);
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
     }
 
-    private ArrayList<Integer> arrayListIDs = new ArrayList<>();
+    /*private ArrayList<Integer> arrayListIDs = new ArrayList<>();
 
-    /**
-     * Returns list of songs.
-     * @return names of all songs in the base in an arrayList
-     */
     public ArrayList<String> getSongs() {
         ArrayList<Pair<String, Integer>> arrayList = Songs.getSongsList();
         ArrayList<String> arrayListNames = new ArrayList<>();
@@ -73,41 +59,15 @@ public class Controller {
     }
 
     private Integer chosenSongID;
-    private Integer secondSongID;
-    private Integer thirdSongID;
-    private Integer fourthSongID;
-
-    /**
-     * First player choose one song, other 3 are randomly generated.
-     * @param number number of chosen song in an arrayListNames
-     * @return success or not
-     */
     public boolean choseSong(Integer number) {
         chosenSongID = arrayListIDs.get(number);
-        secondSongID = 0;
-        thirdSongID = 0;
-        fourthSongID = 0;
         return Songs.getSong(chosenSongID);
     }
 
-    /**
-     * Waiting for another player to finish
-     * @return
-     */
-    public boolean updateSecondPlayerInfo(){
-        while (!LocalNetwork.endOrNot(secondPlayer));
-        return true;
-    }
+    public BroadcastReceiver getConnection(WifiP2pManager manager,
+                                           WifiP2pManager.Channel channel, Activity activity) {
+        return new WiFiBroadcastReceiver(manager, channel, activity);
+    }*/
 
-    public void playSong(int part) {
-    }
 
-    public void singSong() {
-    }
-
-    public void stopSong() {
-    }
-
-    public void guessSong() {
-    }
 }
