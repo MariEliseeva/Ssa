@@ -1,49 +1,38 @@
 package alekhina_eliseeva.ssa.controller;
 
-import java.sql.SQLException;
+import android.widget.ArrayAdapter;
+
+import com.google.firebase.auth.FirebaseAuth;
+
+
 import java.util.ArrayList;
 
+
 public class Controller {
-    public boolean signUp(String login, String password) {
-        boolean result;
-        try {
-            result = UserInfoDataBase.addUser(login, password);
-        } catch (SQLException e) {
-            return false;
-        }
-        userName = login;
-        return result;
+
+    public static void signUp(String login, String password, String username) {
+        FirebaseAuth.getInstance().signOut();
+        UserInfoDataBase.addUser(login, password, username);
     }
 
-    private String userName; //login
-    private int userType; //first or second player
-
-    public boolean logIn(String login, String password) {
-        boolean result = false;
-        try {
-            result = UserInfoDataBase.checkPassword(login, password);
-        } catch (SQLException e) {
-            return false;
-        }
-        if (result) userName = login;
-        return result;
+    public static void signIn(String login, String password) {
+        UserInfoDataBase.logIn(login, password);
     }
 
-    public ArrayList<RatingLine> getRating() {
-        try {
-            return UserInfoDataBase.getRating();
-        } catch (SQLException e) {
-            return null;
-        }
+    public static void signOut() {
+        UserInfoDataBase.signOut();
     }
 
-    public boolean changeScore(int score) {
-        try {
-            UserInfoDataBase.changeScore(userName, score);
-        } catch (SQLException e) {
-            return false;
-        }
-        return true;
+    public static void getRating(ArrayAdapter arrayAdapter, ArrayList arrayList) {
+        new UserInfoDataBase().getRating(arrayAdapter, arrayList);
+    }
+
+    public static void changeScore(int score) {
+        new UserInfoDataBase().changeScore(score);
+    }
+
+    public static boolean isUser() {
+        return (FirebaseAuth.getInstance().getCurrentUser() == null);
     }
 
     /*private ArrayList<Integer> arrayListIDs = new ArrayList<>();

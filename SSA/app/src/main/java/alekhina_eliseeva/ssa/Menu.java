@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import alekhina_eliseeva.ssa.controller.Controller;
+
 public class Menu extends AppCompatActivity {
 
     @Override
@@ -101,6 +103,8 @@ public class Menu extends AppCompatActivity {
                             editor.commit();
                             Intent intent = new Intent(Menu.this, MainActivity.class);
                             startActivity(intent);
+                            Controller.signOut();
+                            //возможно хранить логин-пароль не нужно и оно хранится само
                         }
                     });
                     alert.show();

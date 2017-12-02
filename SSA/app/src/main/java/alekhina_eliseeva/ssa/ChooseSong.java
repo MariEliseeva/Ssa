@@ -10,6 +10,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
+import alekhina_eliseeva.ssa.controller.Controller;
+
 public class ChooseSong extends AppCompatActivity {
 
     @Override
@@ -23,6 +25,7 @@ public class ChooseSong extends AppCompatActivity {
         /* TODO Запрос к контроллеру список возможных песен
             songNames = controller.getListSong();
          */
+        new Controller().changeScore(123);
         songList.setAdapter(arrayAdapter);
         songNames.add("Ольга Бузова - Мало половин");
         songNames.add("Ольга Бузова - Хит Парад");

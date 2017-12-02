@@ -9,6 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
+import alekhina_eliseeva.ssa.controller.Controller;
+
 public class SignUp extends AppCompatActivity {
 
     @Override
@@ -31,13 +35,11 @@ public class SignUp extends AppCompatActivity {
                 }
                 else {
                     /* Вызов корректности имени */
-                    /* TODO*/  boolean flag = (name.charAt(0) == 'o');
+                    /* TODO*/  boolean flag = true;
                     if (flag) {
-                        SharedPreferences sharedPreferences = getSharedPreferences("StoreData", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("name", name);
-                        editor.putString("password", password);
-                        editor.commit();
+                        Controller.signUp(name, password, "MARI");
+                        //Нужно окошечко для имени, т.к. регистрация по email
+                        //И окошечки для email -- обязательно должн быть textEmailAddress
                         Intent i = new Intent(SignUp.this, Menu.class);
                         startActivity(i);
                     }

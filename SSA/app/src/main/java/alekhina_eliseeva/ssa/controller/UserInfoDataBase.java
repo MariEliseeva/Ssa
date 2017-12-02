@@ -1,76 +1,85 @@
 package alekhina_eliseeva.ssa.controller;
 
+import android.util.Log;
+import android.widget.ArrayAdapter;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
-
 class UserInfoDataBase {
-    private static String URL = "";
-    private static String tableName = "userInfo";
+    static void getRating(final ArrayAdapter arrayAdapter, final ArrayList arrayList) {
+        FirebaseDatabase.getInstance().getReference().orderByChild("score").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                arrayList.clear();
+                for (DataSnapshot c : dataSnapshot.getChildren()) {
+                    int subS = 1;
+                    if (c.child("score").getValue().toString().length() == 1) {
+                        subS = 0;
+                    }
+                    arrayList.add(c.child("score").getValue().toString().substring(subS)
+                            + " " + c.child("userName").getValue());
+                }
+                arrayAdapter.notifyDataSetChanged();
+            }
 
-    private static ArrayList<RatingLine> makeRating(Connection connection) throws SQLException {
-        String query = "select name, score from " + tableName + " order by score";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
-        ArrayList<RatingLine> arrayList = new ArrayList<>();
-        while (resultSet.next()) {
-            arrayList.add(new RatingLine(resultSet.getString("name"),
-                    Integer.parseInt(resultSet.getString("score"))));
-        }
-        statement.close();
-        return arrayList;
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
-    static ArrayList<RatingLine> getRating() throws SQLException {
-        Connection connection = DriverManager.getConnection(URL);
-        ArrayList<RatingLine> result = makeRating(connection);
-        connection.close();
-        return result;
+    static void changeScore(int score) {
+        FirebaseDatabase.getInstance().getReference()
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("score").setValue(-score);
     }
 
-    static boolean checkPassword(String name, String password) throws SQLException {
-        Connection connection = DriverManager.getConnection(URL);
-        boolean result;
-        String query = "select name from " + tableName + " where name like '" + name + "'";
-        Statement statement = connection.createStatement();;
-        if (statement.executeQuery(query).getString("password").compareTo(password) != 0) {
-            result = false;
-        }
-        result = true;
-        statement.close();
-        connection.close();
-        return result;
+    static void logIn(String email, String password) {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                .addOnFailureListener(new OnFailureListener() {
+                                          @Override
+                                          public void onFailure(Exception e) {
+                                              Log.e("AAAAAA", e.getMessage());
+                                          }
+                                      }
+                );
     }
 
-    static boolean addUser(String name, String password) throws SQLException {
-        Connection connection = DriverManager.getConnection(URL);
-        boolean result;
-        String query = "select name from " + tableName + " where name like '" + name + "'";
-        Statement statement = connection.createStatement();;
-        if (statement.execute(query)) {
-            result = false;
-        } else {
-            query = "insert into " + tableName + " (name, password, score) values ("
-                    + name + ", " + password + ", 0);";
-            statement.executeUpdate(query);
-            result = true;
-        }
-        statement.close();
-        connection.close();
-        return result;
+    static void addUser(final String email, String password,
+                        final String username) {
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnSuccessListener(
+                new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        Log.e("XXXX", String.valueOf(user == null));
+                        user.sendEmailVerification();
+                        Log.e("BBBB", email);
+                        FirebaseDatabase.getInstance().getReference().child(user.getUid()).child("userName").push();
+                        FirebaseDatabase.getInstance().getReference().child(user.getUid()).child("userName").setValue(username);
+                        FirebaseDatabase.getInstance().getReference().child(user.getUid()).child("score").push();
+                        FirebaseDatabase.getInstance().getReference().child(user.getUid()).child("score").setValue(0);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(Exception e) {
+                                                Log.e("AAAAAA", e.getMessage());
+                                            }
+                                        }
+        );
     }
 
-    static void changeScore(String name, int score) throws SQLException {
-        Connection connection = DriverManager.getConnection(URL);
-        String query = "update " + tableName + " set score = " + score + " where name like '" + name + "'";
-        Statement statement = connection.createStatement();;
-        statement.executeUpdate(query);
-        statement.close();
-        connection.close();
+    public static void signOut() {
+        FirebaseAuth.getInstance().signOut();
     }
 }

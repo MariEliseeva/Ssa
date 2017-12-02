@@ -1,19 +1,25 @@
 package alekhina_eliseeva.ssa.controller;
 
-public class RatingLine {
-    private final String NAME;
-    private final int SCORE;
+import com.google.firebase.database.IgnoreExtraProperties;
 
-    RatingLine(String name, int score) {
+@IgnoreExtraProperties
+public class RatingLine {
+    public Integer SCORE;
+    public String NAME;
+
+    RatingLine() {
+    }
+
+    RatingLine(String name, Integer score) {
         NAME = name;
         SCORE = score;
     }
 
-    String getName() {
+    public String getName() {
         return NAME;
     }
 
-    int getScore() {
+    public int getScore() {
         return SCORE;
     }
 }

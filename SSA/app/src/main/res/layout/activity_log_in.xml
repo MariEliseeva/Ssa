@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Ваше имя"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:textColorLink="@android:color/background_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
