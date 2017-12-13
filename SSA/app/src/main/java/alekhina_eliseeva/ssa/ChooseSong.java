@@ -41,6 +41,15 @@ public class ChooseSong extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 /* TODO Отвпраляем контроллеру выбранную песню
                  */
+                byte[] bytes = new byte[3];
+                bytes[0] = 1;
+                bytes[1] = 2;
+                bytes[2] = 3;
+                Controller.addSong(bytes);
+                //кажется сейчас у нас все по-другому и возможно этого файла нет...
+                // Но вот так пока записывать байты с песней, скоро сделаю чтобы
+                // передавалось сообщение второму игроку
+
                 Toast.makeText(ChooseSong.this, "Ваш выбор отправлен контроллеру", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(ChooseSong.this, Menu.class);
                 startActivity(intent);

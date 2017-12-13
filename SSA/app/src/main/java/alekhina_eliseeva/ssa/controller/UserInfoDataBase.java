@@ -63,7 +63,7 @@ class UserInfoDataBase {
                     public void onSuccess(AuthResult authResult) {
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         Log.e("XXXX", String.valueOf(user == null));
-                        user.sendEmailVerification();
+                        //user.sendEmailVerification();
                         Log.e("BBBB", email);
                         FirebaseDatabase.getInstance().getReference().child(user.getUid()).child("userName").push();
                         FirebaseDatabase.getInstance().getReference().child(user.getUid()).child("userName").setValue(username);

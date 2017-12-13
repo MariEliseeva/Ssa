@@ -1,5 +1,6 @@
 package alekhina_eliseeva.ssa.controller;
 
+import android.content.Context;
 import android.widget.ArrayAdapter;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,28 +36,17 @@ public class Controller {
         return (FirebaseAuth.getInstance().getCurrentUser() == null);
     }
 
-    /*private ArrayList<Integer> arrayListIDs = new ArrayList<>();
+    public static void reverseAudio(String name) {
 
-    public ArrayList<String> getSongs() {
-        ArrayList<Pair<String, Integer>> arrayList = Songs.getSongsList();
-        ArrayList<String> arrayListNames = new ArrayList<>();
-        for (Pair<String, Integer> element : arrayList) {
-            arrayListNames.add(element.first);
-            arrayListIDs.add(element.second);
-        }
-        return arrayListNames;
+        Songs.reverseAudio(name);
     }
 
-    private Integer chosenSongID;
-    public boolean choseSong(Integer number) {
-        chosenSongID = arrayListIDs.get(number);
-        return Songs.getSong(chosenSongID);
+    public static String addSong(byte[] data) {
+        return SongsStorage.addSong(data);
     }
 
-    public BroadcastReceiver getConnection(WifiP2pManager manager,
-                                           WifiP2pManager.Channel channel, Activity activity) {
-        return new WiFiBroadcastReceiver(manager, channel, activity);
-    }*/
-
+    public static void getSong(ArrayAdapter arrayAdapter, ArrayList arrayList, String address) {
+        SongsStorage.getSong(arrayList, arrayAdapter, address);
+    }
 
 }

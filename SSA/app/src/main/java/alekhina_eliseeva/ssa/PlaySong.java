@@ -4,10 +4,17 @@ import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.io.IOException;
+import java.util.ArrayList;
+
+import alekhina_eliseeva.ssa.controller.Controller;
 
 public class PlaySong extends AppCompatActivity {
     MediaPlayer mPlayer;
@@ -16,7 +23,22 @@ public class PlaySong extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_song);
-        mPlayer=MediaPlayer.create(this, R.raw.mysound);
+        mPlayer=MediaPlayer.create(this, R.raw.sound);
+
+        ArrayList<Byte> songNames = new ArrayList<>();
+        ArrayAdapter arrayAdapter;
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, songNames);
+        Controller.getSong(arrayAdapter, songNames, "JSKvAA1FeeTtQT6t0oDeUIirk1G3");
+        //это id игрока, с которым играешь. Наверное оно будет внутри где-то передаваться игроками,
+        // потом разберемся. В songNames записываются байты с песенкой.
+        // ArrayAdapter оповещает, когда они записались. Т.к. я не шарю, они
+        // пока просто выводятся на экран.
+        ListView songList = (ListView) findViewById(R.id.list);
+        /* TODO Запрос к контроллеру список возможных песен
+            songNames = controller.getListSong();
+         */
+        songList.setAdapter(arrayAdapter);
+        arrayAdapter.notifyDataSetChanged();
 
         startButton = (Button) findViewById(R.id.start);
         pauseButton = (Button) findViewById(R.id.pause);
