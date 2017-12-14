@@ -40,7 +40,7 @@ public class Menu extends AppCompatActivity {
                 String whatToDo = menuString.get(i);
                 if (whatToDo.equals("Играть со случайным соперником")) {
                     /* TODO отправляем информацию о том, что будем играть со случайным игроком */
-                    Intent intent = new Intent(Menu.this, ChooseSong.class);
+                    Intent intent = new Intent(Menu.this, SongRecording.class);
                     startActivity(intent);
                 }
                 if (whatToDo.equals("Играть с другом")) {

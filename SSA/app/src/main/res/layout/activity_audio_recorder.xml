@@ -9,58 +9,50 @@
 
     <Button
         android:id="@+id/startRecord"
-        android:layout_width="368dp"
+        android:layout_width="154dp"
         android:layout_height="wrap_content"
-        android:text="Начать запись"
+        android:text="начать запись"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.135"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.207" />
+        app:layout_constraintVertical_bias="0.345" />
+
+    <Button
+        android:id="@+id/pauseRecord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="остановить запись"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.534"
+        app:layout_constraintStart_toEndOf="@+id/startRecord"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.345" />
 
     <Button
         android:id="@+id/playRecord"
-        android:layout_width="368dp"
+        android:layout_width="157dp"
         android:layout_height="wrap_content"
-        android:text="Воспроизвести"
+        android:text="воспроизвести"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.136"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/startRecord"
-        app:layout_constraintVertical_bias="0.065" />
+        app:layout_constraintVertical_bias="0.541" />
 
     <Button
-        android:id="@+id/PausePlay"
-        android:layout_width="368dp"
+        android:id="@+id/stopPlaySecord"
+        android:layout_width="156dp"
         android:layout_height="wrap_content"
-        android:text="Остановить"
+        android:text="остановить"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playRecord"
-        app:layout_constraintVertical_bias="0.074" />
-
-    <Button
-        android:id="@+id/StopPlay"
-        android:layout_width="368dp"
-        android:layout_height="wrap_content"
-        android:text="Выключить"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PausePlay"
-        app:layout_constraintVertical_bias="0.081" />
-
-    <Button
-        android:id="@+id/next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Далее"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.972"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/StopPlay"
-        app:layout_constraintVertical_bias="0.561" />
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toEndOf="@+id/playRecord"
+        app:layout_constraintTop_toBottomOf="@+id/pauseRecord"
+        app:layout_constraintVertical_bias="0.541" />
 
 </android.support.constraint.ConstraintLayout>
