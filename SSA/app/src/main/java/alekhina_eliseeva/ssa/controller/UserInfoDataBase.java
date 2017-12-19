@@ -17,7 +17,8 @@ import java.util.ArrayList;
 
 class UserInfoDataBase {
     static void getRating(final ArrayAdapter arrayAdapter, final ArrayList arrayList) {
-        FirebaseDatabase.getInstance().getReference().orderByChild("score").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("rating").orderByChild("score")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 arrayList.clear();
@@ -39,7 +40,7 @@ class UserInfoDataBase {
     }
 
     static void changeScore(int score) {
-        FirebaseDatabase.getInstance().getReference()
+        FirebaseDatabase.getInstance().getReference().child("rating")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child("score").setValue(-score);
     }
@@ -65,10 +66,41 @@ class UserInfoDataBase {
                         Log.e("XXXX", String.valueOf(user == null));
                         //user.sendEmailVerification();
                         Log.e("BBBB", email);
-                        FirebaseDatabase.getInstance().getReference().child(user.getUid()).child("userName").push();
-                        FirebaseDatabase.getInstance().getReference().child(user.getUid()).child("userName").setValue(username);
-                        FirebaseDatabase.getInstance().getReference().child(user.getUid()).child("score").push();
-                        FirebaseDatabase.getInstance().getReference().child(user.getUid()).child("score").setValue(0);
+                        String emailGood = "";
+                        for (int i = 0; i < email.length(); i++) {
+                            if (email.charAt(i) == '.') {
+                                emailGood += ',';
+                            } else {
+                                emailGood += email.charAt(i);
+                            }
+                        }
+                        FirebaseDatabase.getInstance().getReference().child("rating").child(user.getUid()).child("userName").push();
+                        FirebaseDatabase.getInstance().getReference().child("rating").child(user.getUid()).child("userName").setValue(username);
+                        FirebaseDatabase.getInstance().getReference().child("rating").child(user.getUid()).child("score").push();
+                        FirebaseDatabase.getInstance().getReference().child("rating").child(user.getUid()).child("score").setValue(0);
+                        FirebaseDatabase.getInstance().getReference().child("UidByEmail").child(emailGood).push();
+                        FirebaseDatabase.getInstance().getReference().child("UidByEmail").child(emailGood).setValue(user.getUid());
+                        FirebaseDatabase.getInstance().getReference().child("messages").child(user.getUid()).push();
+                        FirebaseDatabase.getInstance().getReference().child("messages").child(user.getUid()).setValue("");
+                        FirebaseDatabase.getInstance().getReference().child("songNames").child(user.getUid()).push();
+                        FirebaseDatabase.getInstance().getReference().child("songNames").child(user.getUid()).
+                                child("s1").push();
+                        FirebaseDatabase.getInstance().getReference().child("songNames").child(user.getUid()).
+                                child("s2").push();
+                        FirebaseDatabase.getInstance().getReference().child("songNames").child(user.getUid()).
+                                child("s3").push();
+                        FirebaseDatabase.getInstance().getReference().child("songNames").child(user.getUid()).
+                                child("s4").push();
+                        FirebaseDatabase.getInstance().getReference().child("songNames").child(user.getUid()).
+                                child("s1").setValue("");
+                        FirebaseDatabase.getInstance().getReference().child("songNames").child(user.getUid()).
+                                child("s2").setValue("");
+                        FirebaseDatabase.getInstance().getReference().child("songNames").child(user.getUid()).
+                                child("s3").setValue("");
+                        FirebaseDatabase.getInstance().getReference().child("songNames").child(user.getUid()).
+                                child("s4").setValue("");
+
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                                             @Override

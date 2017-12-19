@@ -25,7 +25,6 @@ public class ChooseSong extends AppCompatActivity {
         /* TODO Запрос к контроллеру список возможных песен
             songNames = controller.getListSong();
          */
-        new Controller().changeScore(123);
         songList.setAdapter(arrayAdapter);
         songNames.add("Ольга Бузова - Мало половин");
         songNames.add("Ольга Бузова - Хит Парад");
@@ -45,10 +44,16 @@ public class ChooseSong extends AppCompatActivity {
                 bytes[0] = 1;
                 bytes[1] = 2;
                 bytes[2] = 3;
-                Controller.addSong(bytes);
-                //кажется сейчас у нас все по-другому и возможно этого файла нет...
-                // Но вот так пока записывать байты с песней, скоро сделаю чтобы
-                // передавалось сообщение второму игроку
+                Controller.addSong(bytes, "name1", "name2", "name3", "name4", "Eliseevamary@mail.ru");
+                // кажется сейчас у нас все по-другому и возможно этого файла нет...
+                // Но вот так пока записывать байты с песней.
+                // и 4 варианта ответа, первый -- правильный
+                // email -- того, с кем хотим играть
+                // Тут нужно как-то запомнить, что других игр начинать нельзя, т.е.
+                // ничего не менять в активити, пока не придет результат игры.
+                // getResult(arrayadapter, arraylist, email) -- пока так например,
+                // список все пустой пустой, а потом в него внезапно что-то запишется (win или lose там),
+                // баллы прибавятся и можно будет закончить
 
                 Toast.makeText(ChooseSong.this, "Ваш выбор отправлен контроллеру", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(ChooseSong.this, Menu.class);

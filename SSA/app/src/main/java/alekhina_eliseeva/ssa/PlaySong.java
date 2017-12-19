@@ -28,11 +28,17 @@ public class PlaySong extends AppCompatActivity {
         ArrayList<Byte> songNames = new ArrayList<>();
         ArrayAdapter arrayAdapter;
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, songNames);
-        Controller.getSong(arrayAdapter, songNames, "JSKvAA1FeeTtQT6t0oDeUIirk1G3");
-        //это id игрока, с которым играешь. Наверное оно будет внутри где-то передаваться игроками,
-        // потом разберемся. В songNames записываются байты с песенкой.
+        Controller.getSong(arrayAdapter, songNames, "Eliseevamary17@gmail.com", "");
+        //это email игрока, с которым играешь. В songNames записываются байты с песенкой.
         // ArrayAdapter оповещает, когда они записались. Т.к. я не шарю, они
-        // пока просто выводятся на экран.
+        // пока просто выводятся на экран. Последний параметр -- какой кусочек ты хочешь,
+        // но пока не доделано с ними
+        // 4 варианта ответа -- тоже можно просить у контроллера,
+        // также передавать адаптер, arraylist и mail. В возвращаемом списке первый вариант правильный,
+        //так что нужно как-то перемешивать..
+        // Или скажи куда -- несложно передавать правильный вариант отдельно
+        // когда выбрал вариант -- вызывай fixResult(booleanValue, email) true -- если правильно ответил и тд
+        // оно отправится первому игроку, а этому баллы
         ListView songList = (ListView) findViewById(R.id.list);
         /* TODO Запрос к контроллеру список возможных песен
             songNames = controller.getListSong();
