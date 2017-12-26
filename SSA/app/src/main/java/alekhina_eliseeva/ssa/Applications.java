@@ -33,8 +33,7 @@ public class Applications extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 /* TODO передаем контроллеру с кем хотим играть nameUserWhoWantPlay.get(i);*/
-                Intent intent = new Intent(Applications.this, PlaySong.class);
-                startActivity(intent);
+                
             }
         });
     }
