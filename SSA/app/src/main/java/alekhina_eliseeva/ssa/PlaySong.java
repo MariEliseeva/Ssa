@@ -22,7 +22,6 @@ public class PlaySong extends AppCompatActivity {
     private Handler handler;
     private SeekBar seekBar;
     private String songFile;
-    private int sizeSong;
     private byte[] song;
 
     final Runnable runnable = new Runnable() {
@@ -46,6 +45,12 @@ public class PlaySong extends AppCompatActivity {
         }
     }
 
+    public void next() {
+        //TODO отдать Маше байты
+        getSong();
+        Intent intent = new Intent(PlaySong.this, AnswerOption.class);
+        startActivity(intent);
+    }
     private void getSong() {
         File file = new File(songFile);
         byte[] header = new byte[44];
@@ -67,7 +72,6 @@ public class PlaySong extends AppCompatActivity {
         Intent intent = getIntent();
         handler = new Handler();
         songFile = intent.getStringExtra("SongFile");
-        sizeSong = intent.getIntExtra("LengthSong", 0);
         ImageView start = (ImageView) findViewById(R.id.startPlay);
         start.setImageResource(R.drawable.start);
         ImageView stop = (ImageView) findViewById(R.id.stopPlay);
@@ -129,10 +133,7 @@ public class PlaySong extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO отдать Маше байты
-                getSong();
-                Intent intent = new Intent(PlaySong.this, AnswerOption.class);
-                startActivity(intent);
+                next();
             }
         });
 

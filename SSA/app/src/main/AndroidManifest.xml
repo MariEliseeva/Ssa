@@ -30,6 +30,8 @@
         <activity android:name=".SongRecording" />
         <activity android:name=".AnswerOption" />
         <activity android:name=".PlayReverseSong" />
+        <activity android:name=".RecordReverseSong" />
+        <activity android:name=".ReverseSongRecording"></activity>
     </application>
 
 </manifest>
