@@ -10,6 +10,8 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import alekhina_eliseeva.ssa.controller.Controller;
+
 public class Applications extends AppCompatActivity {
 
     @Override
@@ -24,11 +26,10 @@ public class Applications extends AppCompatActivity {
             songNames = controller.getListApplications();
          */
         applicationsList.setAdapter(arrayAdapter);
-        nameUserWhoWantPlay.add("Vasya");
-        nameUserWhoWantPlay.add("Olya");
-        nameUserWhoWantPlay.add("Masha");
-        nameUserWhoWantPlay.add("Vadik");
-        arrayAdapter.notifyDataSetChanged();
+        Controller.getSuggestList(arrayAdapter, nameUserWhoWantPlay);
+        // выводит список предложений
+        // если сделаешь кнопочку "заигнорить", то можно вызывать метод ignore(email)
+        // не проверила работает ли, т.к. кнопочки нет, но там легко исрпавлять, если не работает -- пиши
         applicationsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

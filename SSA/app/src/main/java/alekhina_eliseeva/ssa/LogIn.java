@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import alekhina_eliseeva.ssa.controller.Controller;
+
 public class LogIn extends AppCompatActivity {
 
     @Override
@@ -18,6 +20,10 @@ public class LogIn extends AppCompatActivity {
         final SharedPreferences sharedPreferences = getSharedPreferences("StoreData", MODE_PRIVATE);
         String name = sharedPreferences.getString("name", "");
         String password = sharedPreferences.getString("password", "");
+
+        //возможно хранить логин-пароль не нужно,
+        //можешь спрашивать у контроллера -- есть ли юзер,
+        //который залогинился в предыдущий раз: Controller.isUser()
 
         if (name.length() > 0 && password.length() > 0) {
             Intent intent = new Intent(LogIn.this, Menu.class);
@@ -34,7 +40,8 @@ public class LogIn extends AppCompatActivity {
                     String newName = nameTextView.getText().toString();
                     String newPassword= passwordTextView.getText().toString();
                     //TODO запрос на корректность
-                    boolean flag = (newName.charAt(0) == 'o');
+                    Controller.signIn(newName, newPassword);
+                    boolean flag = true;
                     if (flag) {
                         editor.putString("name", newName);
                         editor.putString("password", newPassword);

@@ -1,113 +1,75 @@
 package alekhina_eliseeva.ssa.controller;
 
-import android.util.Pair;
+import android.widget.ArrayAdapter;
+
+import com.google.firebase.auth.FirebaseAuth;
+
 
 import java.util.ArrayList;
 
-/**
- * Created by mari on 06.11.17.
- */
 
 public class Controller {
-    /**
-     * Add new login and password to data base
-     * @param login new login
-     * @param password password
-     * @return success or not
-     */
-    public boolean signUp(String login, String password) {
-        return UserInfo.signUp(login, password);
+
+    public static void signUp(String login, String password, String username) {
+        FirebaseAuth.getInstance().signOut();
+        UserInfoDataBase.addUser(login, password, username);
+        //TODO проверка email на уникальность
     }
 
-    private String userName; //login
-    private int userType; //first or second player
-
-    /**
-     * Checks the password is correct and remember user's name.
-     * @param login login
-     * @param password password to check
-     * @return logged in or not
-     */
-    public boolean logIn(String login, String password) {
-        boolean result = UserInfo.check(login, password);
-        if (result) userName = login;
-        return result;
+    public static void signIn(String login, String password) {
+        UserInfoDataBase.logIn(login, password);
     }
 
-    Object secondPlayer; // connection with another player
-    /**
-     * Connects to friend using WiFi address.
-     * @param address adress to connect
-     * @return success or not
-     */
-    public boolean connectWiFi(String address) {
-        userType = 0;
-        secondPlayer = LocalNetwork.connect(address);
-        return (secondPlayer != null);
+    public static void signOut() {
+        UserInfoDataBase.signOut();
     }
 
-    /**
-     * Co
-     * @return
-     */
-    public boolean confirmConnection() {
-        userType = 1;
-        secondPlayer = LocalNetwork.confirmConnection();
-        return (secondPlayer != null);
+    public static void getRating(ArrayAdapter arrayAdapter, ArrayList arrayList) {
+        new UserInfoDataBase().getRating(arrayAdapter, arrayList);
     }
 
-    private ArrayList<Integer> arrayListIDs = new ArrayList<>();
-
-    /**
-     * Returns list of songs.
-     * @return names of all songs in the base in an arrayList
-     */
-    public ArrayList<String> getSongs() {
-        ArrayList<Pair<String, Integer>> arrayList = Songs.getSongsList();
-        ArrayList<String> arrayListNames = new ArrayList<>();
-        for (Pair<String, Integer> element : arrayList) {
-            arrayListNames.add(element.first);
-            arrayListIDs.add(element.second);
-        }
-        return arrayListNames;
+    public static void changeScore(int score) {
+        new UserInfoDataBase().changeScore(score);
+        // TODO: ++, not =
     }
 
-    private Integer chosenSongID;
-    private Integer secondSongID;
-    private Integer thirdSongID;
-    private Integer fourthSongID;
-
-    /**
-     * First player choose one song, other 3 are randomly generated.
-     * @param number number of chosen song in an arrayListNames
-     * @return success or not
-     */
-    public boolean choseSong(Integer number) {
-        chosenSongID = arrayListIDs.get(number);
-        secondSongID = 0;
-        thirdSongID = 0;
-        fourthSongID = 0;
-        return Songs.getSong(chosenSongID);
+    public static boolean isUser() {
+        return (FirebaseAuth.getInstance().getCurrentUser() == null);
     }
 
-    /**
-     * Waiting for another player to finish
-     * @return
-     */
-    public boolean updateSecondPlayerInfo(){
-        while (!LocalNetwork.endOrNot(secondPlayer));
-        return true;
+    public static void addSong(byte[] data, String v1, String v2, String v3, String v4,  String email) {
+        SongsStorage.addSong(data);
+        SongsStorage.addNames(v1, v2, v3, v4);
+        Communication.suggest(email);
     }
 
-    public void playSong(int part) {
+    public static void getSong(ArrayAdapter arrayAdapter, ArrayList arrayList, String name, String part) {
+        SongsStorage.getSong(arrayList, arrayAdapter, name, part);
+        //TODO: поменять ArrayAdapter на что-то нужное(?)
     }
 
-    public void singSong() {
+    public static void getVariants(ArrayAdapter arrayAdapter, ArrayList arrayList, String name) {
+        SongsStorage.getVariants(arrayList, arrayAdapter, name);
+        //TODO: поменять ArrayAdapter на что-то нужное(?)
     }
 
-    public void stopSong() {
+    public static void getSuggestList(ArrayAdapter arrayAdapter, ArrayList arrayList) {
+        Communication.getSuggestList(arrayAdapter,arrayList);
     }
 
-    public void guessSong() {
+    public static void ignore(String email) {
+        Communication.ignore(email);
+    }
+
+    public static void fixResult(boolean res, String email) {
+        Communication.fixResult(res, email);
+    }
+
+    public static void getResult(ArrayAdapter arrayAdapter, ArrayList arrayList, String email) {
+        Communication.getResult(arrayAdapter, arrayList, email);
+    }
+
+    public static byte[] reverse(byte[] bytes) {
+        return SongsStorage.reverseSong(bytes);
     }
 }

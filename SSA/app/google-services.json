@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "366386456869",
+    "firebase_url": "https://ssafirebase.firebaseio.com",
+    "project_id": "ssafirebase",
+    "storage_bucket": "ssafirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:366386456869:android:c7afe1decdafdb5f",
+        "android_client_info": {
+          "package_name": "alekhina_eliseeva.ssa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "366386456869-cisn166ftvd69pk07f6s54fd4v4okfb2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "alekhina_eliseeva.ssa",
+            "certificate_hash": "f3a1343bc071112b1f39b17ab6df7decc5add476"
+          }
+        },
+        {
+          "client_id": "366386456869-uuvjshmuusv1j9nvtv5072njfljb191e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0RNXmzlM0vA21E1JiZuEdP-6f7T4suCg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "366386456869-uuvjshmuusv1j9nvtv5072njfljb191e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -17,8 +17,10 @@
         app:layout_constraintHorizontal_bias="0.051"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+
         app:layout_constraintVertical_bias="0.403"
         app:srcCompat="@android:drawable/alert_dark_frame" />
+
 
     <ImageButton
         android:id="@+id/pausePlay"
@@ -30,6 +32,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+
+
         app:layout_constraintVertical_bias="0.403"
         app:srcCompat="@android:drawable/alert_dark_frame" />
 
@@ -56,6 +60,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/startPlay"
         app:layout_constraintVertical_bias="0.229" />
+
 
     <Button
         android:id="@+id/next"
