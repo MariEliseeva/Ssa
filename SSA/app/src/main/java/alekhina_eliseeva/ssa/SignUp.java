@@ -34,8 +34,12 @@ public class SignUp extends AppCompatActivity {
                     Toast.makeText(SignUp.this, "Пароли не совпадают", Toast.LENGTH_LONG).show();
                 }
                 else {
+
                     /* Вызов корректности имени */
-                    /* TODO*/  boolean flag = true;
+                    /* TODO*/  //boolean flag = true;
+
+                    /* TODO Вызов корректности имени*/  //boolean flag = (name.charAt(0) == 'o');
+
                     if (flag) {
                         Controller.signUp(name, password, "MARI");
                         //Нужно окошечко для имени, т.к. регистрация по email

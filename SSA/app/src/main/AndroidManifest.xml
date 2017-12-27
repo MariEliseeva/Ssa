@@ -18,6 +18,10 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 
     <application
         android:allowBackup="true"
@@ -39,7 +43,12 @@
         <activity android:name=".ChooseSong" />
         <activity android:name=".Top" />
         <activity android:name=".Applications" />
-        <activity android:name=".PlaySong"></activity>
+        <activity android:name=".PlaySong" />
+        <activity android:name=".SongRecording" />
+        <activity android:name=".AnswerOption" />
+        <activity android:name=".PlayReverseSong" />
+        <activity android:name=".RecordReverseSong" />
+        <activity android:name=".ReverseSongRecording"></activity>
     </application>
 
     <service

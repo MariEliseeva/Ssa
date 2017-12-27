@@ -34,7 +34,12 @@ public class Applications extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 /* TODO передаем контроллеру с кем хотим играть nameUserWhoWantPlay.get(i);*/
-                Intent intent = new Intent(Applications.this, PlaySong.class);
+                /*TODO получаем байты*/
+                /*SaveWavFile saveWavFile = new SaveWavFile();
+                saveWavFile.saveMusic(len, "1.wav", bytes);
+                */
+                Intent intent = new Intent(Applications.this, PlayReverseSong.class);
+                intent.putExtra("SongFile", /*savefile.getpath*/ "/storage/emulated/0/SSA/music.wav");
                 startActivity(intent);
             }
         });
