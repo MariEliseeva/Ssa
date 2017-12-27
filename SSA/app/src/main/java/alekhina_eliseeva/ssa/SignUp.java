@@ -30,8 +30,7 @@ public class SignUp extends AppCompatActivity {
                     Toast.makeText(SignUp.this, "Пароли не совпадают", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    /* Вызов корректности имени */
-                    /* TODO*/  boolean flag = (name.charAt(0) == 'o');
+                    /* TODO Вызов корректности имени*/  boolean flag = (name.charAt(0) == 'o');
                     if (flag) {
                         SharedPreferences sharedPreferences = getSharedPreferences("StoreData", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();

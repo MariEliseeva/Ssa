@@ -25,7 +25,6 @@ public class Menu extends AppCompatActivity {
         final ArrayList<String> menuString = new ArrayList<>();
         ArrayAdapter arrayAdapter =  new ArrayAdapter(this, android.R.layout.simple_list_item_1, menuString);
         menuList.setAdapter(arrayAdapter);
-        menuString.add("Играть со случайным соперником");
         menuString.add("Играть с другом");
         menuString.add("Заявки на игру");
         menuString.add("Активные игры");
@@ -38,11 +37,7 @@ public class Menu extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String whatToDo = menuString.get(i);
-                if (whatToDo.equals("Играть со случайным соперником")) {
-                    /* TODO отправляем информацию о том, что будем играть со случайным игроком */
-                    Intent intent = new Intent(Menu.this, ChooseSong.class);
-                    startActivity(intent);
-                }
+
                 if (whatToDo.equals("Играть с другом")) {
                     /* TODO отправляем информацию о том, что будем играть с другом */
                     AlertDialog.Builder alert = new AlertDialog.Builder(Menu.this);
@@ -54,8 +49,7 @@ public class Menu extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             String nameFriend = input.getText().toString();
                             /* TODO отправляем контроллеру имя пользователя*/
-                            Toast.makeText(Menu.this, "Отправляем контроллеру имя пользователя", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(Menu.this, ChooseSong.class);
+                            Intent intent = new Intent(Menu.this, SongRecording.class);
                             startActivity(intent);
                         }
                     });
