@@ -27,9 +27,9 @@ public class PlaySong extends AppCompatActivity {
     final Runnable runnable = new Runnable() {
         @Override
         public void run() {
+            seekBar.setMax(mediaPlayer.getDuration());
             int currentPosition = mediaPlayer.getCurrentPosition();
-            Integer x = (currentPosition * 100) / mediaPlayer.getDuration();
-            seekBar.setProgress(x);
+            seekBar.setProgress(currentPosition);
             handler.postDelayed(this, 100);
         }
     };

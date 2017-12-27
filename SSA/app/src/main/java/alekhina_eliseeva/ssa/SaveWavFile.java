@@ -13,9 +13,15 @@ import java.io.FileOutputStream;
 public class SaveWavFile {
     private File fileForSave;
 
-    private void createFileForSave(String filename) {
+    private void createFileForSave() {
         File dirForSSA = new File(Environment.getExternalStorageDirectory() + File.separator + "SSA");
-        fileForSave = new File(Environment.getExternalStorageDirectory() + File.separator + "SSA" + File.separator + filename);
+        String filename = "music";
+        for (Integer i = 0;; i++) {
+            fileForSave = new File(Environment.getExternalStorageDirectory() + File.separator + "SSA" + File.separator + filename + i.toString() + ".wav");
+            if (!fileForSave.exists()) {
+                break;
+            }
+        }
         try {
             dirForSSA.mkdirs();
             fileForSave.createNewFile();
@@ -24,8 +30,8 @@ public class SaveWavFile {
         }
     }
 
-    public void saveMusic(int countByteSong, String fileName, byte[] bufferForSong) {
-        createFileForSave(fileName);
+    public void saveMusic(int countByteSong, byte[] bufferForSong) {
+        createFileForSave();
         byte[] header = new byte[44];
         header[0] = 82;
         header[1] = 73;

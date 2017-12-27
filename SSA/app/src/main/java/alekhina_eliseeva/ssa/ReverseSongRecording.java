@@ -7,7 +7,7 @@ import android.os.Bundle;
 public class ReverseSongRecording extends SongRecording {
 
     @Override
-    public void next() {
+    protected void next() {
         //Если есть непрослушанные куски, то сохраняем
         Intent intent = new Intent(ReverseSongRecording.this, PlayReverseSong.class);
         intent.putExtra("SongFile", /*savefile.getpath*/ "/storage/emulated/0/SSA/music.wav");

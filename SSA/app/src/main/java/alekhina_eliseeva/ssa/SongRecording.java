@@ -26,20 +26,20 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class SongRecording extends AppCompatActivity {
-    private static final int PERMISSION_REQUEST_RECORD = 1;
-    private static final int PERMISSION_REQUEST_READ = 2;
-    private static final int PERMISSION_REQUEST_WRITE = 3;
-    private static int bufferSizeForRecord = 0;
-    private AudioRecord recorder;
-    private boolean isRecording = false;
-    private byte[] bufferForSong;
-    private final int bufferSizeForMusic = 6859776 * 16;
-    private int countByteSong = 0;
-    private File fileForSave;
+    protected static final int PERMISSION_REQUEST_RECORD = 1;
+    protected static final int PERMISSION_REQUEST_READ = 2;
+    protected static final int PERMISSION_REQUEST_WRITE = 3;
+    protected static int bufferSizeForRecord = 0;
+    protected AudioRecord recorder;
+    protected boolean isRecording = false;
+    protected byte[] bufferForSong;
+    protected final int bufferSizeForMusic = 6859776 * 16;
+    protected int countByteSong = 0;
+    protected File fileForSave;
     final SaveWavFile saveWavFile = new SaveWavFile();
 
 
-    private void getPermissionRecorder() {
+    protected void getPermissionRecorder() {
         if (ContextCompat.checkSelfPermission(SongRecording.this, Manifest.permission.RECORD_AUDIO)
                 == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(SongRecording.this,
@@ -48,7 +48,7 @@ public class SongRecording extends AppCompatActivity {
         }
     }
 
-    private void getPermissionReadWrite() {
+    protected void getPermissionReadWrite() {
         if (ContextCompat.checkSelfPermission(SongRecording.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(SongRecording.this,
@@ -64,13 +64,13 @@ public class SongRecording extends AppCompatActivity {
         }
     }
 
-    private void initAudioRecord(int audioSourse, int sampleRatelnHz, int channelConfig, int audioFormat) {
+    protected void initAudioRecord(int audioSourse, int sampleRatelnHz, int channelConfig, int audioFormat) {
         bufferSizeForRecord = AudioRecord.getMinBufferSize(sampleRatelnHz, channelConfig, audioFormat);
         recorder = new AudioRecord(audioSourse, sampleRatelnHz, channelConfig, audioFormat, bufferSizeForRecord * 10);
     }
 
 
-    public void next() {
+    protected void next() {
         Intent intent = new Intent(SongRecording.this, PlaySong.class);
         intent.putExtra("SongFile", saveWavFile.getPath());
         startActivity(intent);
@@ -93,17 +93,6 @@ public class SongRecording extends AppCompatActivity {
 
             }
         }).start();
-    }
-
-    private void createFileForSave() {
-        File dirForSSA = new File(Environment.getExternalStorageDirectory() + File.separator + "SSA");
-        fileForSave = new File(Environment.getExternalStorageDirectory() + File.separator + "SSA" + File.separator + "music.wav");
-        try {
-            dirForSSA.mkdirs();
-            fileForSave.createNewFile();
-        } catch (Exception e) {
-            Log.d("SongRecording", e.getMessage());
-        }
     }
 
 
@@ -151,7 +140,7 @@ public class SongRecording extends AppCompatActivity {
                 recorder.stop();
                 recorder = null;
                 isRecording = false;
-                saveWavFile.saveMusic(countByteSong, "music.wav", bufferForSong);
+                saveWavFile.saveMusic(countByteSong,  bufferForSong);
             }
         });
 
