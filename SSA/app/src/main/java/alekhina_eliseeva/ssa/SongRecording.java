@@ -36,7 +36,7 @@ public class SongRecording extends AppCompatActivity {
     protected final int bufferSizeForMusic = 6859776 * 16;
     protected int countByteSong = 0;
     protected File fileForSave;
-    final SaveWavFile saveWavFile = new SaveWavFile();
+    final protected SaveWavFile saveWavFile = new SaveWavFile();
 
 
     protected void getPermissionRecorder() {

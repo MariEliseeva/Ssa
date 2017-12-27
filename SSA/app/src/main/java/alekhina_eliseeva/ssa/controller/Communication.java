@@ -11,6 +11,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import alekhina_eliseeva.ssa.PlayResultSong;
+
 public class Communication {
     static void getSuggestList(final ArrayAdapter arrayAdapter, final ArrayList arrayList) {
         FirebaseDatabase.getInstance().getReference().addValueEventListener(new ValueEventListener() {
@@ -69,22 +71,14 @@ public class Communication {
                 .child(email).removeValue();
     }
 
-    static void fixResult(boolean res, String email) {
-        String result = res ? "win" : "lose";
-        FirebaseDatabase.getInstance().getReference().child("results").child(email).
+    static void fixResult(boolean res) {
+        String result = res ? "lose" : "win";
+        FirebaseDatabase.getInstance().getReference().child("results").child(SongsStorage.otherEmail).
                 child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(result);
     }
 
-    static void getResult(final ArrayAdapter arrayAdapter, final ArrayList arrayList, String email) {
-        String emailGood1 = "";
-        for (int i = 0; i < email.length(); i++) {
-            if (email.charAt(i) == '.') {
-                emailGood1 += ',';
-            } else {
-                emailGood1 += email.charAt(i);
-            }
-        }
-        final String emailGood = emailGood1.toLowerCase();
+    static void getResult(final ArrayAdapter arrayAdapter, final ArrayList arrayList) {
+        final String emailGood = SongsStorage.otherEmail;
         FirebaseDatabase.getInstance().getReference().child("results").child(emailGood)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override

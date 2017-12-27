@@ -27,11 +27,11 @@ import alekhina_eliseeva.ssa.controller.Controller;
 
 
 public class PlaySong extends AppCompatActivity {
-    private MediaPlayer mediaPlayer;
-    private Handler handler;
-    private SeekBar seekBar;
-    private String songFile;
-    private byte[] song;
+    protected MediaPlayer mediaPlayer;
+    protected Handler handler;
+    protected SeekBar seekBar;
+    protected String songFile;
+    protected byte[] song;
 
     final Runnable runnable = new Runnable() {
         @Override
@@ -43,7 +43,7 @@ public class PlaySong extends AppCompatActivity {
         }
     };
 
-    private void createMediaPlayer() {
+    protected void createMediaPlayer() {
         mediaPlayer = new MediaPlayer();
         try {
             mediaPlayer.setDataSource(songFile);
@@ -57,10 +57,11 @@ public class PlaySong extends AppCompatActivity {
     public void next() {
         //TODO отдать Маше байты
         getSong();
+        Controller.addSong(song);
         Intent intent = new Intent(PlaySong.this, AnswerOption.class);
         startActivity(intent);
     }
-    private void getSong() {
+    protected void getSong() {
         File file = new File(songFile);
         byte[] header = new byte[44];
         song = new byte[(int) file.length() - 44];

@@ -12,6 +12,8 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import alekhina_eliseeva.ssa.controller.Controller;
+
 public class AnswerOption extends AppCompatActivity {
 
     @Override
@@ -41,8 +43,10 @@ public class AnswerOption extends AppCompatActivity {
         answers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String whatToDo = answersList.get(i);
-                //TODO отправляю Маше правильный ответ
+                String tmp = answersList.get(0);
+                answersList.set(0, answersList.get(i));
+                answersList.set(i, tmp);
+                Controller.addNames(answersList.get(0), answersList.get(1), answersList.get(2), answersList.get(3));
                 Intent intent = new Intent(AnswerOption.this, Menu.class);
                 startActivity(intent);
             }

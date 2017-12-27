@@ -14,6 +14,21 @@ import java.util.ArrayList;
 import alekhina_eliseeva.ssa.controller.Controller;
 
 public class Applications extends AppCompatActivity {
+    private ArrayList<Byte> list = new ArrayList<>();
+
+    public void next() {
+        Log.e("NEXT", "ASaa");
+        SaveWavFile saveWavFile = new SaveWavFile();
+        byte[] bytes = new byte[list.size() + 45];
+        for (int i = 0; i < list.size(); i++) {
+            bytes[i] = list.get(i);
+        }
+        Log.e("MyLog", ((Integer)list.size()).toString());
+        saveWavFile.saveMusic(list.size(), bytes);
+        Intent intent = new Intent(Applications.this, PlayReverseSong.class);
+        intent.putExtra("SongFile", saveWavFile.getPath());
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +55,9 @@ public class Applications extends AppCompatActivity {
                 /*SaveWavFile saveWavFile = new SaveWavFile();
                 saveWavFile.saveMusic(len, "1.wav", bytes);
                 */
-                Intent intent = new Intent(Applications.this, PlayReverseSong.class);
-                intent.putExtra("SongFile", /*savefile.getpath*/ "/storage/emulated/0/SSA/music.wav");
-                startActivity(intent);
+                ArrayAdapter arrayAdapterMary = new ArrayAdapter(Applications.this, android.R.layout.simple_list_item_1, list);
+                Controller.getSong(Applications.this, arrayAdapterMary, list, nameUserWhoWantPlay.get(i), "0");
+
             }
         });
     }

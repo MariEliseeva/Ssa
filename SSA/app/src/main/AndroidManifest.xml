@@ -30,7 +30,10 @@
         <activity android:name=".SongRecording" />
         <activity android:name=".AnswerOption" />
         <activity android:name=".PlayReverseSong" />
-        <activity android:name=".ReverseSongRecording"/>
+        <activity android:name=".PlayResultSong" />
+        <activity android:name=".ReverseSongRecording" />
+        <activity android:name=".SelectTitle" />
+        <activity android:name=".LastResult"></activity>
     </application>
 
 </manifest>

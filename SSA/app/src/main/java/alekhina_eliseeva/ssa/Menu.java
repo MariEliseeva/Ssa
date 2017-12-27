@@ -30,7 +30,7 @@ public class Menu extends AppCompatActivity {
         menuString.add("Играть с другом");
         menuString.add("Заявки на игру");
         menuString.add("Активные игры");
-        menuString.add("Завершенные игры");
+        menuString.add("Текущая игра");
         menuString.add("Рейтинг");
         menuString.add("Выйти");
         arrayAdapter.notifyDataSetChanged();
@@ -49,7 +49,8 @@ public class Menu extends AppCompatActivity {
                     alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            String nameFriend = input.getText().toString();
+                            String emailFriend = input.getText().toString();
+                            Controller.suggest(emailFriend);
                             /* TODO отправляем контроллеру имя пользователя*/
                             Intent intent = new Intent(Menu.this, SongRecording.class);
                             startActivity(intent);
@@ -71,6 +72,10 @@ public class Menu extends AppCompatActivity {
                 if (whatToDo.equals("Рейтинг")) {
                     Intent intent = new Intent(Menu.this, Top.class);
                     startActivity(intent);
+                }
+                if (whatToDo.equals("Текущая игра")) {
+                    //Intent intent = new Intent(Menu.this, LastResult.class);
+                    //startActivity(intent);
                 }
                 if (whatToDo.equals("Выйти")) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(Menu.this);

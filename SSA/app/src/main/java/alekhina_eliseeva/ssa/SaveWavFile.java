@@ -85,7 +85,13 @@ public class SaveWavFile {
         try {
             FileOutputStream fos = new FileOutputStream(fileForSave);
             fos.write(header, 0, header.length);
-            fos.write(bufferForSong, 44, countByteSong);
+            Log.d("MyLog", ((Integer)countByteSong).toString() + " " + ((Integer)bufferForSong.length));
+            try {
+                fos.write(bufferForSong, 44, countByteSong);
+            }
+            catch (Exception e) {
+                Log.e("MyLog", e.getMessage());
+            }
             fos.flush();
             fos.close();
         } catch (Exception e) {

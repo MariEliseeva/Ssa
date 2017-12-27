@@ -17,6 +17,9 @@ import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Random;
+
+import alekhina_eliseeva.ssa.Applications;
 
 public class SongsStorage {
     static String addSong(byte[] data) {
@@ -37,7 +40,10 @@ public class SongsStorage {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
-    static void getSong(final ArrayList arrayList, final ArrayAdapter arrayAdapter, final String email, String part) {
+    static String otherEmail = "";
+
+    static void getSong(final Applications activity, final ArrayList arrayList, final ArrayAdapter arrayAdapter, final String email, String part) {
+
         String emailGood1 = "";
         for (int i = 0; i < email.length(); i++) {
             if (email.charAt(i) == '.') {
@@ -46,12 +52,15 @@ public class SongsStorage {
                 emailGood1 += email.charAt(i);
             }
         }
-        final String emailGood = emailGood1.toLowerCase() + part;
+        final String emailGood = emailGood1.toLowerCase();
+        otherEmail = emailGood;
+
+        Log.e("getsong", emailGood);
         FirebaseDatabase.getInstance().getReference().child("UidByEmail").child(emailGood).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                getSong1(arrayList, arrayAdapter, dataSnapshot.getValue().toString());
-                Log.e("AAA", emailGood);
+                getSong1(activity, arrayList, arrayAdapter, dataSnapshot.getValue().toString());
+                Log.e("AAA", dataSnapshot.getKey());
             }
 
             @Override
@@ -61,7 +70,8 @@ public class SongsStorage {
         });
     }
 
-    private static void getSong1(final ArrayList list, final ArrayAdapter arrayAdapter, String address) {
+    private static void getSong1(final Applications activity, final ArrayList list, final ArrayAdapter arrayAdapter, String address) {
+        Log.e("getsong1", "ASaa");
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(address);
         final long ONE_MEGABYTE = 1024 * 1024;
         storageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -70,7 +80,10 @@ public class SongsStorage {
                 for (byte e : bytes) {
                     list.add(e);
                 }
+                Log.e("WIN", "ASaa");
                 arrayAdapter.notifyDataSetChanged();
+                activity.next();
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -84,23 +97,17 @@ public class SongsStorage {
         FirebaseDatabase.getInstance().getReference().child("songNames")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("s1").setValue(v1);
         FirebaseDatabase.getInstance().getReference().child("songNames")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("s2").setValue(v1);
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("s2").setValue(v2);
         FirebaseDatabase.getInstance().getReference().child("songNames")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("s3").setValue(v1);
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("s3").setValue(v3);
         FirebaseDatabase.getInstance().getReference().child("songNames")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("s4").setValue(v1);
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("s4").setValue(v4);
     }
 
-    static void getVariants(final ArrayList arrayList, final ArrayAdapter arrayAdapter, String email) {
-        String emailGood1 = "";
-        for (int i = 0; i < email.length(); i++) {
-            if (email.charAt(i) == '.') {
-                emailGood1 += ',';
-            } else {
-                emailGood1 += email.charAt(i);
-            }
-        }
-        final String emailGood = emailGood1.toLowerCase();
+
+
+    static void getVariants(final ArrayList arrayList, final ArrayAdapter arrayAdapter) {
+        final String emailGood = otherEmail;
         FirebaseDatabase.getInstance().getReference().child("UidByEmail").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -123,9 +130,13 @@ public class SongsStorage {
                 Log.e("AAAAA", uid);
                 dataSnapshot = dataSnapshot.child("songNames")
                         .child(uid);
+                Controller.setRightAnswer(new Random().nextInt(4));
                 for (DataSnapshot c : dataSnapshot.getChildren()) {
                     arrayList.add(c.getValue());
                 }
+                String tmp = (String)arrayList.get(0);
+                arrayList.set(0, arrayList.get(Controller.getRightAnswer()));
+                arrayList.set(Controller.getRightAnswer(),tmp);
                 arrayAdapter.notifyDataSetChanged();
             }
 
