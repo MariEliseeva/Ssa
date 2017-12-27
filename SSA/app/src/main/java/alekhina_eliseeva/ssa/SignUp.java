@@ -36,7 +36,7 @@ public class SignUp extends AppCompatActivity {
                 else {
 
                     /* Вызов корректности имени */
-                    /* TODO*/  //boolean flag = true;
+                    /* TODO*/  boolean flag = true;
 
                     /* TODO Вызов корректности имени*/  //boolean flag = (name.charAt(0) == 'o');
 
