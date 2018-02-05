@@ -11,12 +11,14 @@ import java.io.FileOutputStream;
  */
 
 public class SaveWavFile {
-    private File fileForSave;
+    private static byte[] header = new byte[]{82, 73, 70, 70, -124, 69, 3, 0, 87, 65, 86, 69, 102, 109, 116, 32, 16, 0, 0,
+            0, 1, 0, 1, 0, 68, -84, 0, 0, -128, 62, 0, 0, 2, 0, 16, 0, 100, 97, 116, 97};
 
-    private void createFileForSave() {
+    private static File createFileForSave() {
+        File fileForSave;
         File dirForSSA = new File(Environment.getExternalStorageDirectory() + File.separator + "SSA");
         String filename = "music";
-        for (Integer i = 0;; i++) {
+        for (Integer i = 0; ; i++) {
             fileForSave = new File(Environment.getExternalStorageDirectory() + File.separator + "SSA" + File.separator + filename + i.toString() + ".wav");
             if (!fileForSave.exists()) {
                 break;
@@ -26,80 +28,29 @@ public class SaveWavFile {
             dirForSSA.mkdirs();
             fileForSave.createNewFile();
         } catch (Exception e) {
-            Log.d("SongRecording", e.getMessage());
+            Log.e("SaveWavFile", e.getMessage());
         }
+        return fileForSave;
     }
 
-    public void saveMusic(int countByteSong, byte[] bufferForSong) {
+
+    public static String saveMusic(int countByteSong, byte[] bufferForSong) {
         createFileForSave();
-        byte[] header = new byte[44];
-        header[0] = 82;
-        header[1] = 73;
-        header[2] = 70;
-        header[3] = 70;
-        header[4] = -124;
-        header[5] = 69;
-        header[6] = 3;
-        header[7] = 0;
-        header[8] = 87;
-        header[9] = 65;
-        header[10] = 86;
-        header[11] = 69;
-        header[12] = 102;
-        header[13] = 109;
-        header[14] = 116;
-        header[15] = 32;
-        header[16] = 16;
-        header[17] = 0;
-        header[18] = 0;
-        header[19] = 0;
-        header[20] = 1;
-        header[21] = 0;
-        header[22] = 1;
-        header[23] = 0;
-        header[24] = 68;
-        header[25] = -84;
-        header[26] = 0;
-        header[27] = 0;
-        header[28] = -128;
-        header[29] = 62;
-        header[30] = 0;
-        header[31] = 0;
-        header[32] = 2;
-        header[33] = 0;
-        header[34] = 16;
-        header[35] = 0;
-        header[36] = 100;
-        header[37] = 97;
-        header[38] = 116;
-        header[39] = 97;
-        int value = countByteSong;
-        header[40] = (byte)(value & 0xFF);
-        value >>>= 8;
-        header[41] = (byte)(value & 0xFF);
-        value >>>= 8;
-        header[42] = (byte)(value & 0xFF);
-        value >>>= 8;
-        header[43] = (byte)(value & 0xFF);
-        value >>>= 8;
-        try {
-            FileOutputStream fos = new FileOutputStream(fileForSave);
-            fos.write(header, 0, header.length);
-            Log.d("MyLog", ((Integer)countByteSong).toString() + " " + ((Integer)bufferForSong.length));
+        File fileForSave = createFileForSave();
+        try (FileOutputStream fos = new FileOutputStream(fileForSave)) {
+            fos.write(header);
+            fos.write(new byte[]{(byte) (countByteSong & 0xFF), (byte) ((countByteSong >> 8) & 0xFF),
+                    (byte) ((countByteSong >> 16) & 0xFF), (byte) ((countByteSong >> 24) & 0xFF)});
+            Log.d("MyLog", ((Integer) countByteSong).toString() + " " + ((Integer) bufferForSong.length));
             try {
                 fos.write(bufferForSong, 44, countByteSong);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 Log.e("MyLog", e.getMessage());
             }
             fos.flush();
-            fos.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public String getPath() {
         return fileForSave.getAbsolutePath();
     }
 

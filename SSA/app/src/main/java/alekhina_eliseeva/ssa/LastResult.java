@@ -4,17 +4,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-
 import java.util.ArrayList;
-
 import alekhina_eliseeva.ssa.controller.Controller;
 
 public class LastResult extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        TextView tw = (TextView) findViewById(R.id.textView);
+        //TextView tw = (TextView) findViewById(R.id.textView);
         //tw.setText(Controller.getEmail());
 
         ArrayList<String> result = new ArrayList<>();

@@ -8,9 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-
 import alekhina_eliseeva.ssa.controller.Controller;
 
 public class SelectTitle extends AppCompatActivity {
@@ -22,18 +20,16 @@ public class SelectTitle extends AppCompatActivity {
 
         ListView selectListView = (ListView) findViewById(R.id.SelectRightAnswer);
         final ArrayList<String> variantiesList = new ArrayList<>();
-        ArrayAdapter arrayAdapter =  new ArrayAdapter(this, android.R.layout.simple_list_item_1, variantiesList);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, variantiesList);
         selectListView.setAdapter(arrayAdapter);
         Controller.getVariants(arrayAdapter, variantiesList);
         selectListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String answer = variantiesList.get(i);
                 if (i == Controller.getRightAnswer()) {
                     Controller.fixResult(true);
                     Toast.makeText(SelectTitle.this, "ЭТО ПОБЕДА!!!", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     Controller.fixResult(false);
                     Toast.makeText(SelectTitle.this, "=( Вы проиграли", Toast.LENGTH_SHORT).show();
                 }

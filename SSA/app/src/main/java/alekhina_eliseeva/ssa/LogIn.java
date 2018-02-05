@@ -21,15 +21,14 @@ public class LogIn extends AppCompatActivity {
         String name = sharedPreferences.getString("name", "");
         String password = sharedPreferences.getString("password", "");
 
-        //возможно хранить логин-пароль не нужно,
+        //TODO возможно хранить логин-пароль не нужно,
         //можешь спрашивать у контроллера -- есть ли юзер,
         //который залогинился в предыдущий раз: Controller.isUser()
 
         if (name.length() > 0 && password.length() > 0) {
             Intent intent = new Intent(LogIn.this, Menu.class);
             startActivity(intent);
-        }
-        else {
+        } else {
             Button buttonLogIn = (Button) findViewById(R.id.ButtonLogIn);
             buttonLogIn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -38,7 +37,7 @@ public class LogIn extends AppCompatActivity {
                     EditText nameTextView = (EditText) findViewById(R.id.TextAddName);
                     EditText passwordTextView = (EditText) findViewById(R.id.TextAddPassword);
                     String newName = nameTextView.getText().toString();
-                    String newPassword= passwordTextView.getText().toString();
+                    String newPassword = passwordTextView.getText().toString();
                     //TODO запрос на корректность
                     Controller.signIn(newName, newPassword);
                     boolean flag = true;
@@ -48,8 +47,7 @@ public class LogIn extends AppCompatActivity {
                         editor.commit();
                         Intent intent = new Intent(LogIn.this, Menu.class);
                         startActivity(intent);
-                    }
-                    else {
+                    } else {
                         Toast.makeText(LogIn.this, "Неправильный логин или пароль", Toast.LENGTH_SHORT).show();
                     }
                 }

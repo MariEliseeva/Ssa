@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import java.io.File;
 
 public class SongRecording extends AppCompatActivity {
     protected static final int PERMISSION_REQUEST_RECORD = 1;
@@ -26,8 +25,7 @@ public class SongRecording extends AppCompatActivity {
     protected byte[] bufferForSong;
     protected final int bufferSizeForMusic = 6859776 * 16;
     protected int countByteSong = 0;
-    protected File fileForSave;
-    final protected SaveWavFile saveWavFile = new SaveWavFile();
+    protected String absolutePathSong;
 
 
     protected void getPermissionRecorder() {
@@ -63,7 +61,7 @@ public class SongRecording extends AppCompatActivity {
 
     protected void next() {
         Intent intent = new Intent(SongRecording.this, PlaySong.class);
-        intent.putExtra("SongFile", saveWavFile.getPath());
+        intent.putExtra("SongFile", absolutePathSong);
         startActivity(intent);
     }
 
@@ -111,8 +109,7 @@ public class SongRecording extends AppCompatActivity {
                 isRecording = true;
                 try {
                     recorder.startRecording();
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     Log.d("SongRecording", e.getMessage());
                 }
                 readStart();
@@ -131,7 +128,7 @@ public class SongRecording extends AppCompatActivity {
                 recorder.stop();
                 recorder = null;
                 isRecording = false;
-                saveWavFile.saveMusic(countByteSong,  bufferForSong);
+                absolutePathSong = SaveWavFile.saveMusic(countByteSong, bufferForSong);
             }
         });
 
@@ -139,7 +136,7 @@ public class SongRecording extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 bufferForSong = null;
-                if (recorder!= null) {
+                if (recorder != null) {
                     recorder.stop();
                     isRecording = false;
                 }
@@ -152,7 +149,7 @@ public class SongRecording extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         bufferForSong = null;
-        if (recorder!= null) {
+        if (recorder != null) {
             recorder.stop();
             isRecording = false;
         }

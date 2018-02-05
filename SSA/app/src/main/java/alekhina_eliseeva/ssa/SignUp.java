@@ -28,22 +28,18 @@ public class SignUp extends AppCompatActivity {
 
                 if (!password.equals(confirmPassword)) {
                     Toast.makeText(SignUp.this, "Пароли не совпадают", Toast.LENGTH_LONG).show();
-                }
-                else {
+                } else {
 
-                    /* Вызов корректности имени */
-                    /* TODO*/  boolean flag = true;
-
-                    /* TODO Вызов корректности имени*/  //boolean flag = (name.charAt(0) == 'o');
+                    /* TODO Вызов корректности имени*/
+                    boolean flag = true;
 
                     if (flag) {
                         Controller.signUp(name, password, "MARI");
-                        //Нужно окошечко для имени, т.к. регистрация по email
+                        //TODO Нужно окошечко для имени, т.к. регистрация по email
                         //И окошечки для email -- обязательно должн быть textEmailAddress
                         Intent i = new Intent(SignUp.this, Menu.class);
                         startActivity(i);
-                    }
-                    else {
+                    } else {
                         Toast.makeText(SignUp.this, "Данное имя уже существует", Toast.LENGTH_LONG).show();
                     }
                 }

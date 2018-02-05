@@ -14,6 +14,7 @@ import android.widget.SeekBar;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+
 import alekhina_eliseeva.ssa.controller.Controller;
 
 
@@ -46,22 +47,28 @@ public class PlaySong extends AppCompatActivity {
     }
 
     public void next() {
-        //TODO отдать Маше байты
+        //TODO возможно, после того, как мы воспроизвели песню, ее надо удалить, но тогда перестанет работать кнопка назад
         getSong();
         Controller.addSong(song);
         Intent intent = new Intent(PlaySong.this, AnswerOption.class);
         startActivity(intent);
     }
+
     protected void getSong() {
         File file = new File(songFile);
         byte[] header = new byte[44];
         song = new byte[(int) file.length() - 44];
         try {
             FileInputStream fis = new FileInputStream(file);
-            fis.read(header, 0, header.length);
-            fis.read(song, 44, song.length - 45);
-        }
-        catch (IOException e) {
+            int countReadBytes = fis.read(header);
+            if (countReadBytes < header.length) {
+                Log.e("PlaySong", "header read error");
+            }
+            countReadBytes = fis.read(song, 44, song.length - 45);
+            if (countReadBytes < song.length - 45) {
+                Log.e("PlaySong", "song read error");
+            }
+        } catch (IOException e) {
             Log.d("PlaySong", e.getMessage());
         }
     }
@@ -74,9 +81,9 @@ public class PlaySong extends AppCompatActivity {
         //mPlayer=MediaPlayer.create(this, R.raw.sound);
 
 //        ArrayList<Byte> songNames = new ArrayList<>();
- //       ArrayAdapter arrayAdapter;
-  //      arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, songNames);
-   //     Controller.getSong(arrayAdapter, songNames, "Eliseevamary17@gmail.com", "");
+        //       ArrayAdapter arrayAdapter;
+        //      arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, songNames);
+        //     Controller.getSong(arrayAdapter, songNames, "Eliseevamary17@gmail.com", "");
         //это email игрока, с которым играешь. В songNames записываются байты с песенкой.
         // ArrayAdapter оповещает, когда они записались. Т.к. я не шарю, они
         // пока просто выводятся на экран. Последний параметр -- какой кусочек ты хочешь,
@@ -87,8 +94,8 @@ public class PlaySong extends AppCompatActivity {
         // Или скажи куда -- несложно передавать правильный вариант отдельно
         // когда выбрал вариант -- вызывай fixResult(booleanValue, email) true -- если правильно ответил и тд
         // оно отправится первому игроку, а этому баллы
-       // ListView songList = (ListView) findViewById(R.id.list);
-        /* TODO Запрос к контроллеру список возможных песен
+        // ListView songList = (ListView) findViewById(R.id.list);
+        /* TODO тут возможно исправили, но я не помню
             songNames = controller.getListSong();
          */
         //songList.setAdapter(arrayAdapter);

@@ -2,11 +2,9 @@ package alekhina_eliseeva.ssa;
 
 import android.content.Intent;
 import android.util.Log;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-
 import alekhina_eliseeva.ssa.controller.Controller;
 
 public class ReverseSongRecording extends SongRecording {
@@ -19,27 +17,28 @@ public class ReverseSongRecording extends SongRecording {
         song = new byte[(int) file.length()];
         try {
             FileInputStream fis = new FileInputStream(file);
-            fis.read(header, 0, header.length);
-            fis.read(song, 44, song.length - 45);
-        }
-        catch (IOException e) {
-            Log.d("PlaySong", e.getMessage());
+            int countReadBytes = fis.read(header);
+            if (countReadBytes < header.length) {
+                Log.e("ReverseSongRecording", "header reading error");
+            }
+            countReadBytes = fis.read(song);
+            if (countReadBytes < song.length - 45) {
+                Log.e("ReverseSongRecording", "song reading error");
+            }
+        } catch (IOException e) {
+            Log.e("PlaySong", e.getMessage());
         }
     }
+
     @Override
     protected void next() {
-        //Если есть непрослушанные куски, то сохраняем
+        //TODO разрезать песню на куски
         Intent intent = new Intent(ReverseSongRecording.this, PlayResultSong.class);
-        songFile = saveWavFile.getPath();
-        Log.d("MyLog", songFile);
+        songFile = absolutePathSong;
         getSong();
-        Log.e("Mylog1", ((Integer) song.length).toString());
         song = Controller.reverse(song);
-        Log.e("Mylog2", ((Integer) song.length).toString());
-        SaveWavFile saveWavFile1 = new SaveWavFile();
-        Log.e("Mylog3", ((Integer) song.length).toString());
-        saveWavFile1.saveMusic(song.length - 45, song);
-        intent.putExtra("SongFile", saveWavFile1.getPath());
+        String absolutePathForReverseSong = SaveWavFile.saveMusic(song.length - 45, song);
+        intent.putExtra("SongFile", absolutePathForReverseSong);
         startActivity(intent);
     }
 }

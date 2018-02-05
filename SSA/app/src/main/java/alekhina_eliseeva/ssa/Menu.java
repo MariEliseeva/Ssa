@@ -24,7 +24,7 @@ public class Menu extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         ListView menuList = (ListView) findViewById(R.id.ListMenu);
         final ArrayList<String> menuString = new ArrayList<>();
-        ArrayAdapter arrayAdapter =  new ArrayAdapter(this, android.R.layout.simple_list_item_1, menuString);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, menuString);
         menuList.setAdapter(arrayAdapter);
         menuString.add("Играть с другом");
         menuString.add("Заявки на игру");
@@ -40,7 +40,7 @@ public class Menu extends AppCompatActivity {
                 String whatToDo = menuString.get(i);
 
                 if (whatToDo.equals("Играть с другом")) {
-                    /* TODO отправляем информацию о том, что будем играть с другом */
+                    //играем с другом
                     AlertDialog.Builder alert = new AlertDialog.Builder(Menu.this);
                     alert.setMessage("Введите имя того, с кем хотите играть");
                     final EditText input = new EditText(Menu.this);
@@ -48,9 +48,11 @@ public class Menu extends AppCompatActivity {
                     alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            //TODO нужна проверка на корректный email друга
                             String emailFriend = input.getText().toString();
+                            ;
+                            //отправляем контроллеру email пользователя
                             Controller.suggest(emailFriend);
-                            /* TODO отправляем контроллеру имя пользователя*/
                             Intent intent = new Intent(Menu.this, SongRecording.class);
                             startActivity(intent);
                         }
@@ -61,8 +63,8 @@ public class Menu extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                         }
                     });
-
                     alert.show();
+
                 }
                 if (whatToDo.equals("Заявки на игру")) {
                     Intent intent = new Intent(Menu.this, Applications.class);
@@ -102,7 +104,7 @@ public class Menu extends AppCompatActivity {
                             Intent intent = new Intent(Menu.this, MainActivity.class);
                             startActivity(intent);
                             Controller.signOut();
-                            //возможно хранить логин-пароль не нужно и оно хранится само
+                            //TOвозможно хранить логин-пароль не нужно и оно хранится само
                         }
                     });
                     alert.show();
