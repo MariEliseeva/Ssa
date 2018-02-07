@@ -8,16 +8,18 @@ public class PlayReverseSong extends PlaySong {
     @Override
     public void next() {
         Intent prevIntent = getIntent();
-        byte[] songBytes  = prevIntent.getByteArrayExtra("SongBytes");
+        String songBytesFileName  = prevIntent.getStringExtra("SongBytes");
+        int songSize = prevIntent.getIntExtra("SongSize", 0);
         int startByteNumber = prevIntent.getIntExtra("StartByteNumber", 0);
-        byte[] recordBytes = prevIntent.getByteArrayExtra("RecordBytes");
+        String recordBytesFileName = prevIntent.getStringExtra("RecordBytes");
 
         Intent intent = new Intent(PlayReverseSong.this, ReverseSongRecording.class);
         //TODO передать файл для записи и файл для чтения и позицию
 
-        intent.putExtra("SongBytes", songBytes);
+        intent.putExtra("SongBytes", songBytesFileName);
+        intent.putExtra("SongSize", songSize);
         intent.putExtra("StartByteNumber", startByteNumber);
-        intent.putExtra("RecordBytes", recordBytes);
+        intent.putExtra("RecordBytes", recordBytesFileName);
         startActivity(intent);
         finish();
     }

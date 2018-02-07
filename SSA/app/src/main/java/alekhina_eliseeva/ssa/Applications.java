@@ -16,19 +16,20 @@ public class Applications extends AppCompatActivity {
     private ArrayList<Byte> list = new ArrayList<>();
 
     public void next() {
-        byte[] bytes = new byte[list.size() + 45];
+        byte[] bytes = new byte[list.size()];
         for (int i = 0; i < list.size(); i++) {
             bytes[i] = list.get(i);
         }
-        int count = list.size();
+        int count = min(132300, bytes.length);
         String absolutePathPieceSong = SaveFile.saveMusic( count, bytes, "music");
         Intent intent = new Intent(Applications.this, PlayReverseSong.class);
         //TODO сохранить байты в отдельный файл. сохранить первый кусок и передать его дальше
         //TODO создать файл для записи голоса
         intent.putExtra("SongFile", absolutePathPieceSong);
         intent.putExtra("SongBytes", SaveFile.saveBytes(bytes, "text"));
+        intent.putExtra("SongSize", bytes.length);
         intent.putExtra("StartByteNumber", count);
-        intent.putExtra("RecordBytes", SaveFile.saveBytes(new byte[45], "text"));
+        intent.putExtra("RecordBytes", SaveFile.saveBytes(new byte[0], "text"));
         startActivity(intent);
         finish();
     }

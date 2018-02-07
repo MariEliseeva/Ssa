@@ -42,8 +42,7 @@ public class SaveFile {
             fos.write(header);
             fos.write(new byte[]{(byte) (countByteSong & 0xFF), (byte) ((countByteSong >> 8) & 0xFF),
                     (byte) ((countByteSong >> 16) & 0xFF), (byte) ((countByteSong >> 24) & 0xFF)});
-            fos.write(bufferForSong, 44, countByteSong);
-
+            fos.write(bufferForSong, 0, countByteSong);
             fos.flush();
         } catch (Exception e) {
             Log.e("SaveFile", e.getMessage());
@@ -52,9 +51,13 @@ public class SaveFile {
     }
 
     public static String saveBytes (byte[] buffer, String fileType) {
+        return saveBytes(buffer.length, buffer, fileType);
+    }
+
+    public static String saveBytes (int countByte, byte[] buffer, String fileType) {
         File fileForSave = createFileForSave(fileType, ".bin");
         try (FileOutputStream fos = new FileOutputStream(fileForSave)) {
-            fos.write(buffer);
+            fos.write(buffer, 0, countByte);
         }
         catch (IOException e) {
             Log.e("SaveFile", e.getMessage());
