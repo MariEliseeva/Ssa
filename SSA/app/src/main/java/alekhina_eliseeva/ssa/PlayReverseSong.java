@@ -7,8 +7,17 @@ import android.support.v7.app.AlertDialog;
 public class PlayReverseSong extends PlaySong {
     @Override
     public void next() {
-        //TODO возможно, после того, как мы воспроизвели песню, ее надо удалить, но тогда перестанет работать кнопка назад
+        Intent prevIntent = getIntent();
+        byte[] songBytes  = prevIntent.getByteArrayExtra("SongBytes");
+        int startByteNumber = prevIntent.getIntExtra("StartByteNumber", 0);
+        byte[] recordBytes = prevIntent.getByteArrayExtra("RecordBytes");
+
         Intent intent = new Intent(PlayReverseSong.this, ReverseSongRecording.class);
+        //TODO передать файл для записи и файл для чтения и позицию
+
+        intent.putExtra("SongBytes", songBytes);
+        intent.putExtra("StartByteNumber", startByteNumber);
+        intent.putExtra("RecordBytes", recordBytes);
         startActivity(intent);
         finish();
     }

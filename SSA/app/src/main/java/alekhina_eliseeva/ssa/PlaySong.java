@@ -59,7 +59,7 @@ public class PlaySong extends AppCompatActivity {
 
     protected void getSong() {
         File file = new File(songFile);
-        byte[] header = new byte[44];
+        byte[] header = new byte[40];
         song = new byte[(int) file.length() - 44];
         try {
             FileInputStream fis = new FileInputStream(file);

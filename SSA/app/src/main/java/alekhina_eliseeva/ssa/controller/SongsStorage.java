@@ -148,7 +148,7 @@ public class SongsStorage {
 
     static byte[] reverseSong(byte[] bytes) {
         Deque<Byte> deque = new LinkedList<>();
-        for (int i = 0; i < bytes.length; i+=4) {
+        for (int i = 0; i + 3 < bytes.length; i+=4) {
             deque.addFirst(bytes[i + 3]);
             deque.addFirst(bytes[i + 2]);
             deque.addFirst(bytes[i + 1]);

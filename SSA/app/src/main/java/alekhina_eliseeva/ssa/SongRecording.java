@@ -25,7 +25,7 @@ public class SongRecording extends AppCompatActivity {
     protected AudioRecord recorder;
     protected boolean isRecording = false;
     protected byte[] bufferForSong;
-    protected final int bufferSizeForMusic = 6859776 * 16;
+    protected final int bufferSizeForMusic = 6859776 * 8;
     protected int countByteSong = 0;
     protected String absolutePathSong;
 
@@ -66,6 +66,10 @@ public class SongRecording extends AppCompatActivity {
         intent.putExtra("SongFile", absolutePathSong);
         startActivity(intent);
         finish();
+    }
+
+    protected void save() {
+        absolutePathSong = SaveFile.saveMusic(countByteSong, bufferForSong, "music");
     }
 
     private void stopRecording() {
@@ -137,7 +141,7 @@ public class SongRecording extends AppCompatActivity {
                 nextButton.setEnabled(true);
                 recorder.stop();
                 isRecording = false;
-                absolutePathSong = SaveWavFile.saveMusic(countByteSong, bufferForSong);
+                save();
             }
         });
 
@@ -154,7 +158,6 @@ public class SongRecording extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         stopRecording();
-
     }
 
     @Override

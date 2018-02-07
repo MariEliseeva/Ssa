@@ -1,8 +1,6 @@
 package alekhina_eliseeva.ssa;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +10,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import alekhina_eliseeva.ssa.controller.Controller;
 
+import static java.lang.Math.min;
+
 public class Applications extends AppCompatActivity {
     private ArrayList<Byte> list = new ArrayList<>();
 
@@ -20,9 +20,15 @@ public class Applications extends AppCompatActivity {
         for (int i = 0; i < list.size(); i++) {
             bytes[i] = list.get(i);
         }
-        String abdolutePathSong = SaveWavFile.saveMusic(list.size(), bytes);
+        int count = list.size();
+        String absolutePathPieceSong = SaveFile.saveMusic( count, bytes, "music");
         Intent intent = new Intent(Applications.this, PlayReverseSong.class);
-        intent.putExtra("SongFile", abdolutePathSong);
+        //TODO сохранить байты в отдельный файл. сохранить первый кусок и передать его дальше
+        //TODO создать файл для записи голоса
+        intent.putExtra("SongFile", absolutePathPieceSong);
+        intent.putExtra("SongBytes", SaveFile.saveBytes(bytes, "text"));
+        intent.putExtra("StartByteNumber", count);
+        intent.putExtra("RecordBytes", SaveFile.saveBytes(new byte[45], "text"));
         startActivity(intent);
         finish();
     }
@@ -46,6 +52,7 @@ public class Applications extends AppCompatActivity {
                 Controller.getSong(Applications.this, arrayAdapterMary, list, nameUserWhoWantPlay.get(i), "0");
             }
         });
+
     }
 
     @Override
