@@ -1,9 +1,11 @@
 package alekhina_eliseeva.ssa;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -52,6 +54,7 @@ public class PlaySong extends AppCompatActivity {
         Controller.addSong(song);
         Intent intent = new Intent(PlaySong.this, AnswerOption.class);
         startActivity(intent);
+        finish();
     }
 
     protected void getSong() {
@@ -71,6 +74,7 @@ public class PlaySong extends AppCompatActivity {
         } catch (IOException e) {
             Log.d("PlaySong", e.getMessage());
         }
+        file.delete();
     }
 
     @Override
@@ -178,5 +182,29 @@ public class PlaySong extends AppCompatActivity {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(PlaySong.this);
+        alert.setMessage("Вы уверены, что хотите выйти? ");
+        alert.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                }
+                //TODO сказать контроллеру, что заявка на  игру отменена
+                Intent intent = new Intent(PlaySong.this, Menu.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        alert.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.show();
     }
 }

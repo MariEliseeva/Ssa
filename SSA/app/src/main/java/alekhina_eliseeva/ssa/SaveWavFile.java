@@ -41,11 +41,11 @@ public class SaveWavFile {
             fos.write(header);
             fos.write(new byte[]{(byte) (countByteSong & 0xFF), (byte) ((countByteSong >> 8) & 0xFF),
                     (byte) ((countByteSong >> 16) & 0xFF), (byte) ((countByteSong >> 24) & 0xFF)});
-            Log.d("MyLog", ((Integer) countByteSong).toString() + " " + ((Integer) bufferForSong.length));
+            Log.d("SaveWavFile", ((Integer) countByteSong).toString() + " " + ((Integer) bufferForSong.length));
             try {
                 fos.write(bufferForSong, 44, countByteSong);
             } catch (Exception e) {
-                Log.e("MyLog", e.getMessage());
+                Log.e("SaveWavFile", e.getMessage());
             }
             fos.flush();
         } catch (Exception e) {

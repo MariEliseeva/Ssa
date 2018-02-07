@@ -1,6 +1,8 @@
 package alekhina_eliseeva.ssa;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +24,7 @@ public class Applications extends AppCompatActivity {
         Intent intent = new Intent(Applications.this, PlayReverseSong.class);
         intent.putExtra("SongFile", abdolutePathSong);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -43,5 +46,12 @@ public class Applications extends AppCompatActivity {
                 Controller.getSong(Applications.this, arrayAdapterMary, list, nameUserWhoWantPlay.get(i), "0");
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Applications.this, Menu.class);
+        startActivity(intent);
+        finish();
     }
 }

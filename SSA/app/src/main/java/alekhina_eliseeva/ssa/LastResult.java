@@ -1,5 +1,6 @@
 package alekhina_eliseeva.ssa;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -27,5 +28,13 @@ public class LastResult extends AppCompatActivity {
          */
         list.setAdapter(arrayAdapter);
         arrayAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //TODO  этот файл вообще нужен?
+        Intent intent = new Intent(LastResult.this, Menu.class);
+        startActivity(intent);
+        finish();
     }
 }

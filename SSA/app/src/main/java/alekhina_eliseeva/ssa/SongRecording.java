@@ -1,6 +1,7 @@
 package alekhina_eliseeva.ssa;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioFormat;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.support.v7.app.AlertDialog;
 
 public class SongRecording extends AppCompatActivity {
     protected static final int PERMISSION_REQUEST_RECORD = 1;
@@ -63,8 +65,16 @@ public class SongRecording extends AppCompatActivity {
         Intent intent = new Intent(SongRecording.this, PlaySong.class);
         intent.putExtra("SongFile", absolutePathSong);
         startActivity(intent);
+        finish();
     }
 
+    private void stopRecording() {
+        bufferForSong = null;
+        if (recorder != null) {
+            recorder.stop();
+            isRecording = false;
+        }
+    }
     public void readStart() {
         new Thread(new Runnable() {
             @Override
@@ -126,7 +136,6 @@ public class SongRecording extends AppCompatActivity {
                 nextButton.setVisibility(View.VISIBLE);
                 nextButton.setEnabled(true);
                 recorder.stop();
-                recorder = null;
                 isRecording = false;
                 absolutePathSong = SaveWavFile.saveMusic(countByteSong, bufferForSong);
             }
@@ -135,11 +144,7 @@ public class SongRecording extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bufferForSong = null;
-                if (recorder != null) {
-                    recorder.stop();
-                    isRecording = false;
-                }
+                stopRecording();
                 next();
             }
         });
@@ -148,10 +153,28 @@ public class SongRecording extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        bufferForSong = null;
-        if (recorder != null) {
-            recorder.stop();
-            isRecording = false;
-        }
+        stopRecording();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(SongRecording.this);
+        alert.setMessage("Вы уверены, что хотите выйти? ");
+        alert.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                stopRecording();
+                Intent intent = new Intent(SongRecording.this, Menu.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        alert.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.show();
     }
 }

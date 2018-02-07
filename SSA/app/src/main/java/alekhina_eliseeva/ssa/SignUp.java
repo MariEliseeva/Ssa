@@ -39,11 +39,18 @@ public class SignUp extends AppCompatActivity {
                         //И окошечки для email -- обязательно должн быть textEmailAddress
                         Intent i = new Intent(SignUp.this, Menu.class);
                         startActivity(i);
+                        finish();
                     } else {
                         Toast.makeText(SignUp.this, "Данное имя уже существует", Toast.LENGTH_LONG).show();
                     }
                 }
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(SignUp.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

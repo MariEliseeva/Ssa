@@ -1,6 +1,8 @@
 package alekhina_eliseeva.ssa;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,7 +28,7 @@ public class ReverseSongRecording extends SongRecording {
                 Log.e("ReverseSongRecording", "song reading error");
             }
         } catch (IOException e) {
-            Log.e("PlaySong", e.getMessage());
+            Log.e("ReverseSongRecording", e.getMessage());
         }
     }
 
@@ -40,5 +42,27 @@ public class ReverseSongRecording extends SongRecording {
         String absolutePathForReverseSong = SaveWavFile.saveMusic(song.length - 45, song);
         intent.putExtra("SongFile", absolutePathForReverseSong);
         startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(ReverseSongRecording.this);
+        alert.setMessage("Вы уверены, что хотите выйти? выход = проигрыш");
+        alert.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //TODO сказать контроллеру, что автоматически проигрывает
+                Intent intent = new Intent(ReverseSongRecording.this, Menu.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        alert.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.show();
     }
 }

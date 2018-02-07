@@ -11,7 +11,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class ChooseSong extends AppCompatActivity {
-
+ //TODO когда нибудь я его удалю
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +56,7 @@ public class ChooseSong extends AppCompatActivity {
                 Toast.makeText(ChooseSong.this, "Ваш выбор отправлен контроллеру", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(ChooseSong.this, Menu.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

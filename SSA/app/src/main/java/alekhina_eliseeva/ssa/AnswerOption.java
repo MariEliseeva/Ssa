@@ -1,6 +1,8 @@
 package alekhina_eliseeva.ssa;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -49,7 +51,29 @@ public class AnswerOption extends AppCompatActivity {
                 Controller.addNames(answersList.get(0), answersList.get(1), answersList.get(2), answersList.get(3));
                 Intent intent = new Intent(AnswerOption.this, Menu.class);
                 startActivity(intent);
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(AnswerOption.this);
+        alert.setMessage("Вы уверены, что хотите выйти? ");
+        alert.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //TODO сказать контроллеру, что заявка на  игру отменена
+                Intent intent = new Intent(AnswerOption.this, Menu.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        alert.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.show();
     }
 }

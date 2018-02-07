@@ -28,6 +28,7 @@ public class LogIn extends AppCompatActivity {
         if (name.length() > 0 && password.length() > 0) {
             Intent intent = new Intent(LogIn.this, Menu.class);
             startActivity(intent);
+            finish();
         } else {
             Button buttonLogIn = (Button) findViewById(R.id.ButtonLogIn);
             buttonLogIn.setOnClickListener(new View.OnClickListener() {
@@ -47,11 +48,19 @@ public class LogIn extends AppCompatActivity {
                         editor.commit();
                         Intent intent = new Intent(LogIn.this, Menu.class);
                         startActivity(intent);
+                        finish();
                     } else {
                         Toast.makeText(LogIn.this, "Неправильный логин или пароль", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(LogIn.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

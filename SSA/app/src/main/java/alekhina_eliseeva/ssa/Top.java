@@ -1,5 +1,6 @@
 package alekhina_eliseeva.ssa;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -28,5 +29,12 @@ public class Top extends AppCompatActivity {
          */
         songList.setAdapter(arrayAdapter);
         arrayAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Top.this, Menu.class);
+        startActivity(intent);
+        finish();
     }
 }
