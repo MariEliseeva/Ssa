@@ -11,7 +11,7 @@ import alekhina_eliseeva.ssa.controller.Controller;
 
 public class Top extends AppCompatActivity {
     // Рейтинг, для которого нужно норм активити.
-    // Пока в массиве хранятся строчки и с результатом и с именем,
+    // TODO Пока в массиве хранятся строчки и с результатом и с именем,
     // можно (нужно??) будет это поменять
 
     @Override
@@ -24,9 +24,6 @@ public class Top extends AppCompatActivity {
         new Controller().getRating(arrayAdapter, songNames);
 
         ListView songList = (ListView) findViewById(R.id.ListSong);
-        /* TODO Запрос к контроллеру список возможных песен
-            songNames = controller.getListSong();
-         */
         songList.setAdapter(arrayAdapter);
         arrayAdapter.notifyDataSetChanged();
     }

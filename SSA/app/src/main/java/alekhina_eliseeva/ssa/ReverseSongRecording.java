@@ -80,23 +80,9 @@ public class ReverseSongRecording extends SongRecording {
 
     @Override
     protected void next() {
-        /*//TODO разрезать песню на куски
-        Intent intent = new Intent(ReverseSongRecording.this, PlayResultSong.class);
-        songFile = absolutePathSong;
-        getSong();
-        song = Controller.reverse(song);
-        //TODO записать в файл байт
-        //TODO если все куски закончились, то сохраняем все байты в wav файл и перейти, а если нет, то записать очередной кусок и перейти в playreverseSOng
-        String absolutePathForReverseSong = SaveFile.saveMusic(song.length - 45, song, "music");
-        intent.putExtra("SongFile", absolutePathForReverseSong);
-        startActivity(intent);
-        finish();*/
 
-        /** TODO
-         * countByteSong, bufferForSong
-         * если есть кусок, то сохраняем для прослушивания следующий кусок, считанне байты передаем между intent, переходим в playreverse song
-         * если куска нет, то добавляем записанный кусок, переворачиваем, сохраням, передаем в playreverse song
-         */
+//         если есть кусок, то сохраняем для прослушивания следующий кусок, считанне байты передаем между intent, переходим в playreverse song
+//         если куска нет, то добавляем записанный кусок, переворачиваем, сохраням, передаем в playreverse song
         Intent prevIntent = getIntent();
         String songBytesFileName  = prevIntent.getStringExtra("SongBytes");
         int songSize = prevIntent.getIntExtra("SongSize", 0);

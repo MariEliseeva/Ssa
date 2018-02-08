@@ -14,7 +14,6 @@ public class PlayReverseSong extends PlaySong {
         String recordBytesFileName = prevIntent.getStringExtra("RecordBytes");
 
         Intent intent = new Intent(PlayReverseSong.this, ReverseSongRecording.class);
-        //TODO передать файл для записи и файл для чтения и позицию
 
         intent.putExtra("SongBytes", songBytesFileName);
         intent.putExtra("SongSize", songSize);

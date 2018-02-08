@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Toast;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -30,9 +32,8 @@ public class PlaySong extends AppCompatActivity {
     final Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            seekBar.setMax(mediaPlayer.getDuration());
             int currentPosition = mediaPlayer.getCurrentPosition();
-            seekBar.setProgress(currentPosition);
+            seekBar.setProgress(currentPosition * 100 / mediaPlayer.getDuration());
             handler.postDelayed(this, 100);
         }
     };
@@ -49,7 +50,6 @@ public class PlaySong extends AppCompatActivity {
     }
 
     public void next() {
-        //TODO возможно, после того, как мы воспроизвели песню, ее надо удалить, но тогда перестанет работать кнопка назад
         getSong();
         Controller.addSong(song);
         Intent intent = new Intent(PlaySong.this, AnswerOption.class);
@@ -164,7 +164,6 @@ public class PlaySong extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 int result = seekBar.getProgress();
-                Integer x = mediaPlayer.getDuration() * result / 100;
                 mediaPlayer.seekTo(mediaPlayer.getDuration() * result / 100);
             }
         });

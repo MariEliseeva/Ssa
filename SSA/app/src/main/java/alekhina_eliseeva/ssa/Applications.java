@@ -23,8 +23,6 @@ public class Applications extends AppCompatActivity {
         int count = min(132300, bytes.length);
         String absolutePathPieceSong = SaveFile.saveMusic( count, bytes, "music");
         Intent intent = new Intent(Applications.this, PlayReverseSong.class);
-        //TODO сохранить байты в отдельный файл. сохранить первый кусок и передать его дальше
-        //TODO создать файл для записи голоса
         intent.putExtra("SongFile", absolutePathPieceSong);
         intent.putExtra("SongBytes", SaveFile.saveBytes(bytes, "text"));
         intent.putExtra("SongSize", bytes.length);
