@@ -148,6 +148,8 @@ public class SongRecording extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                nextButton.setVisibility(View.GONE);
+                nextButton.setEnabled(false);
                 stopRecording();
                 next();
             }

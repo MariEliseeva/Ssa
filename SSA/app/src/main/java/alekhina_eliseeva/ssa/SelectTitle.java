@@ -35,6 +35,8 @@ public class SelectTitle extends AppCompatActivity {
                     Controller.fixResult(false);
                     Toast.makeText(SelectTitle.this, "=( Вы проиграли", Toast.LENGTH_SHORT).show();
                 }
+
+                //TODO убрать из списка возможных игр
                 Intent intent = new Intent(SelectTitle.this, Menu.class);
                 startActivity(intent);
                 finish();

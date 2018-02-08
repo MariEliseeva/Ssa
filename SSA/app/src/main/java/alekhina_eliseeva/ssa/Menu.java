@@ -35,6 +35,18 @@ public class Menu extends AppCompatActivity {
                 }
             }
         }
+
+        Pattern p1 = Pattern.compile("text.*\\.bin");
+        if (dirForSSA.exists()){
+            File[] files = dirForSSA.listFiles();
+            for (File file : files) {
+                String fileName = file.getName();
+                Matcher m = p1.matcher(fileName);
+                if (m.matches()) {
+                    file.delete();
+                }
+            }
+        }
     }
 
     @Override

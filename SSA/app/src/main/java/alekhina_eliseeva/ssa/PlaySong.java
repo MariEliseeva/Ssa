@@ -116,7 +116,7 @@ public class PlaySong extends AppCompatActivity {
         stop.setImageResource(R.drawable.stop);
         ImageView pause = (ImageView) findViewById(R.id.pausePlay);
         pause.setImageResource(R.drawable.pause);
-        Button next = (Button) findViewById(R.id.next);
+        final Button next = (Button) findViewById(R.id.next);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         createMediaPlayer();
 
@@ -172,6 +172,8 @@ public class PlaySong extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                next.setVisibility(View.GONE);
+                next.setEnabled(false);
                 next();
             }
         });
