@@ -10,18 +10,14 @@ import java.util.ArrayList;
 import alekhina_eliseeva.ssa.controller.Controller;
 
 public class Top extends AppCompatActivity {
-    // Рейтинг, для которого нужно норм активити.
-    // TODO Пока в массиве хранятся строчки и с результатом и с именем,
-    // можно (нужно??) будет это поменять
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ArrayList<String> songNames = new ArrayList<>();
-        ArrayAdapter arrayAdapter;
+        ArrayAdapter<String> arrayAdapter;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_song);
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, songNames);
-        new Controller().getRating(arrayAdapter, songNames);
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, songNames);
+        Controller.getRating(arrayAdapter, songNames);
 
         ListView songList = (ListView) findViewById(R.id.ListSong);
         songList.setAdapter(arrayAdapter);

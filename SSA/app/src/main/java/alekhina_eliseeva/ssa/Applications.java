@@ -38,17 +38,15 @@ public class Applications extends AppCompatActivity {
         setContentView(R.layout.activity_applications);
         ListView applicationsList = (ListView) findViewById(R.id.ListApplications);
         final ArrayList<String> nameUserWhoWantPlay = new ArrayList<>();
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, nameUserWhoWantPlay);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nameUserWhoWantPlay);
         applicationsList.setAdapter(arrayAdapter);
         Controller.getSuggestList(arrayAdapter, nameUserWhoWantPlay);
-        // выводит список предложений
         // если сделаешь кнопочку "заигнорить", то можно вызывать метод ignore(email)
-        // не проверила работает ли, т.к. кнопочки нет, но там легко исрпавлять, если не работает -- пиши
         applicationsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ArrayAdapter arrayAdapterMary = new ArrayAdapter(Applications.this, android.R.layout.simple_list_item_1, list);
-                Controller.getSong(Applications.this, arrayAdapterMary, list, nameUserWhoWantPlay.get(i), "0");
+                ArrayAdapter<Byte> arrayAdapterMary = new ArrayAdapter<>(Applications.this, android.R.layout.simple_list_item_1, list);
+                Controller.getSong(Applications.this, arrayAdapterMary, list, nameUserWhoWantPlay.get(i));
             }
         });
 

@@ -30,10 +30,6 @@ public class LogIn extends AppCompatActivity {
         String name = sharedPreferences.getString("name", "");
         String password = sharedPreferences.getString("password", "");
 
-        //TODO возможно хранить логин-пароль не нужно,
-        //можешь спрашивать у контроллера -- есть ли юзер,
-        //который залогинился в предыдущий раз: Controller.isUser()
-
         if (name.length() > 0 && password.length() > 0) {
             Intent intent = new Intent(LogIn.this, Menu.class);
             startActivity(intent);
@@ -48,7 +44,6 @@ public class LogIn extends AppCompatActivity {
                     EditText passwordTextView = (EditText) findViewById(R.id.TextAddPassword);
                     String newName = nameTextView.getText().toString();
                     String newPassword = passwordTextView.getText().toString();
-                    //TODO запрос на корректность
                     Controller.signIn(LogIn.this, newName, newPassword);
                     editor.putString("name", newName);
                     editor.putString("password", newPassword);

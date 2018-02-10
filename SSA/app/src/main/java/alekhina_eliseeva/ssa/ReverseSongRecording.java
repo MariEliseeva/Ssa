@@ -13,7 +13,7 @@ import alekhina_eliseeva.ssa.controller.Controller;
 import static java.lang.Math.min;
 
 public class ReverseSongRecording extends SongRecording {
-    private String songFile;
+    //private String songFile;
     private byte[] song;
 
     /*private void getSong() {
@@ -126,6 +126,7 @@ public class ReverseSongRecording extends SongRecording {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //TODO сказать контроллеру, что автоматически проигрывает
+                Controller.fixResult(false);
                 Intent intent = new Intent(ReverseSongRecording.this, Menu.class);
                 startActivity(intent);
                 finish();

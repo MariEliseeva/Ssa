@@ -1,6 +1,5 @@
 package alekhina_eliseeva.ssa.controller;
 
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -11,15 +10,15 @@ import java.util.ArrayList;
 
 import alekhina_eliseeva.ssa.Applications;
 import alekhina_eliseeva.ssa.LogIn;
+import alekhina_eliseeva.ssa.Menu;
 import alekhina_eliseeva.ssa.SignUp;
 
 
 public class Controller {
 
-    public static void signUp(SignUp activity, String login, String password, String username) {
+    public static void signUp(SignUp activity, String login, String password) {
         FirebaseAuth.getInstance().signOut();
         UserInfoDataBase.addUser(activity, login, password);
-        //TODO проверка email на уникальность
     }
 
     public static void signIn(LogIn activity, String login, String password) {
@@ -30,12 +29,8 @@ public class Controller {
         UserInfoDataBase.signOut();
     }
 
-    public static void getRating(ArrayAdapter arrayAdapter, ArrayList arrayList) {
+    public static void getRating(ArrayAdapter<String> arrayAdapter, ArrayList<String> arrayList) {
         UserInfoDataBase.getRating(arrayAdapter, arrayList);
-    }
-
-    public static boolean isUser() {
-        return (FirebaseAuth.getInstance().getCurrentUser() == null);
     }
 
     public static void addSong(byte[] data) {
@@ -47,13 +42,13 @@ public class Controller {
         SongsStorage.addNames(v1, v2, v3, v4);
     }
 
-    public static void suggest(String email) {
-        Communication.suggest(email);
+    public static void suggest(Menu activity, String email) {
+        Communication.suggest(activity, email);
     }
 
-    public static void getSong(Applications activity, ArrayAdapter arrayAdapter, ArrayList arrayList, String name, String part) {
-        SongsStorage.getSong(activity, arrayList, arrayAdapter, name, part);
-        //TODO: поменять ArrayAdapter на что-то нужное(?)
+    public static void getSong(Applications activity, ArrayAdapter<Byte> arrayAdapter,
+                               ArrayList<Byte> arrayList, String name) {
+        SongsStorage.getSong(activity, arrayList, arrayAdapter, name);
     }
 
     private static int rightAnswer;
@@ -66,13 +61,12 @@ public class Controller {
         rightAnswer = newAnswer;
     }
 
-    public static void getVariants(ArrayAdapter arrayAdapter, ArrayList arrayList) {
+    public static void getVariants(ArrayAdapter<String> arrayAdapter, ArrayList<String> arrayList) {
         SongsStorage.getVariants(arrayList, arrayAdapter);
-        //TODO: поменять ArrayAdapter на что-то нужное(?)
     }
 
-    public static void getSuggestList(ArrayAdapter arrayAdapter, ArrayList arrayList) {
-        Communication.getSuggestList(arrayAdapter,arrayList);
+    public static void getSuggestList(ArrayAdapter<String> arrayAdapter, ArrayList<String> arrayList) {
+        Communication.getSuggestList(arrayAdapter, arrayList);
     }
 
     public static void ignore(String email) {
@@ -91,23 +85,8 @@ public class Controller {
         }
     }
 
-    public static void getResult(ArrayAdapter arrayAdapter, ArrayList arrayList) {
+    public static void getResult(ArrayAdapter<String> arrayAdapter, ArrayList<String> arrayList) {
         Communication.getResult(arrayAdapter, arrayList);
-    }
-
-    public static String getEmail(){
-        String ans = "";
-        if (SongsStorage.otherEmail == null) {
-            return "";
-        }
-        for (int i = 0; i <  SongsStorage.otherEmail.length(); i++) {
-            if ( SongsStorage.otherEmail.charAt(i) == ',') {
-                ans += '.';
-            } else {
-                ans +=  SongsStorage.otherEmail.charAt(i);
-            }
-        }
-        return ans;
     }
 
     public static byte[] reverse(byte[] bytes) {

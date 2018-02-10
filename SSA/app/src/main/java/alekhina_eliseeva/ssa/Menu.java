@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,6 +50,16 @@ public class Menu extends AppCompatActivity {
         }
     }
 
+    public void next() {
+        Intent intent = new Intent(Menu.this, SongRecording.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void notNext(){
+        Toast.makeText(Menu.this, "Неправильный логин друга", Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +67,7 @@ public class Menu extends AppCompatActivity {
         deleteUnnecessaryFiles();
         ListView menuList = (ListView) findViewById(R.id.ListMenu);
         final ArrayList<String> menuString = new ArrayList<>();
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, menuString);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, menuString);
         menuList.setAdapter(arrayAdapter);
         menuString.add("Играть с другом");
         menuString.add("Заявки на игру");
@@ -74,20 +85,16 @@ public class Menu extends AppCompatActivity {
                 if (whatToDo.equals("Играть с другом")) {
                     //играем с другом
                     AlertDialog.Builder alert = new AlertDialog.Builder(Menu.this);
-                    alert.setMessage("Введите имя того, с кем хотите играть");
+                    alert.setMessage("Введите email того, с кем хотите играть");
                     final EditText input = new EditText(Menu.this);
                     alert.setView(input);
                     alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            //TODO нужна проверка на корректный email друга
                             String emailFriend = input.getText().toString();
-                            ;
                             //отправляем контроллеру email пользователя
-                            Controller.suggest(emailFriend);
-                            Intent intent = new Intent(Menu.this, SongRecording.class);
-                            startActivity(intent);
-                            finish();
+                            Controller.suggest(Menu.this, emailFriend);
+
                         }
                     });
 
@@ -141,7 +148,6 @@ public class Menu extends AppCompatActivity {
                             startActivity(intent);
                             Controller.signOut();
                             finish();
-                            //TODO Возможно хранить логин-пароль не нужно и оно хранится само
                         }
                     });
                     alert.show();

@@ -1,7 +1,6 @@
 package alekhina_eliseeva.ssa.controller;
 
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.annotation.NonNull;
 import android.widget.ArrayAdapter;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -20,7 +19,7 @@ import alekhina_eliseeva.ssa.LogIn;
 import alekhina_eliseeva.ssa.SignUp;
 
 class UserInfoDataBase {
-    static void getRating(final ArrayAdapter arrayAdapter, final ArrayList arrayList) {
+    static void getRating(final ArrayAdapter<String> arrayAdapter, final ArrayList<String> arrayList) {
         FirebaseDatabase.getInstance().getReference().child("rating").orderByChild("score")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -43,15 +42,20 @@ class UserInfoDataBase {
         });
     }
 
+    private static int max(int e1, int e2) {
+        if (e1 > e2) {
+            return e1;
+        }
+        return e2;
+    }
+
     static void addScore(final int score) {
         FirebaseDatabase.getInstance().getReference().child("rating")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot c) {
-                        changeScore(-Integer.valueOf(c.child("score").getValue().toString()) + score);
-                        Log.e("AAAAAAAA",
-                                ((Integer)(-Integer.valueOf(c.child("score").getValue().toString()) + score)).toString());
+                        changeScore(max(0, -Integer.valueOf(c.child("score").getValue().toString()) + score));
                     }
 
                     @Override
@@ -75,13 +79,11 @@ class UserInfoDataBase {
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
-                                          @Override
-                                          public void onFailure(Exception e) {
-                                              Log.e("AAAAAA", e.getMessage());
-                                              activity.notNext();
-                                          }
-                                      }
-                );
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        activity.notNext();
+                    }
+                });
     }
 
     static void addUser(final SignUp activity, final String email, String password) {
@@ -90,9 +92,6 @@ class UserInfoDataBase {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        Log.e("XXXX", String.valueOf(user == null));
-                        //user.sendEmailVerification();
-                        Log.e("BBBB", email);
                         String emailGood = "";
                         for (int i = 0; i < email.length(); i++) {
                             if (email.charAt(i) == '.') {
@@ -130,15 +129,14 @@ class UserInfoDataBase {
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                                             @Override
-                                            public void onFailure(Exception e) {
-                                                Log.e("AAAAAA", e.getMessage());
-                                                activity.notNext();
+                                            public void onFailure(@NonNull Exception e) {
+                                               activity.notNext();
                                             }
                                         }
         );
     }
 
-    public static void signOut() {
+    static void signOut() {
         FirebaseAuth.getInstance().signOut();
     }
 }
