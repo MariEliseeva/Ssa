@@ -39,6 +39,23 @@ class UserInfoDataBase {
         });
     }
 
+    static void addScore(final int score) {
+        FirebaseDatabase.getInstance().getReference().child("rating")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot c) {
+                        changeScore(-Integer.valueOf(c.child("score").getValue().toString()) + score);
+                        Log.e("AAAAAAAA",
+                                ((Integer)(-Integer.valueOf(c.child("score").getValue().toString()) + score)).toString());
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+    }
+
     static void changeScore(int score) {
         FirebaseDatabase.getInstance().getReference().child("rating")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -56,8 +73,7 @@ class UserInfoDataBase {
                 );
     }
 
-    static void addUser(final String email, String password,
-                        final String username) {
+    static void addUser(final String email, String password) {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnSuccessListener(
                 new OnSuccessListener<AuthResult>() {
                     @Override
@@ -75,7 +91,7 @@ class UserInfoDataBase {
                             }
                         }
                         FirebaseDatabase.getInstance().getReference().child("rating").child(user.getUid()).child("userName").push();
-                        FirebaseDatabase.getInstance().getReference().child("rating").child(user.getUid()).child("userName").setValue(username);
+                        FirebaseDatabase.getInstance().getReference().child("rating").child(user.getUid()).child("userName").setValue(email);
                         FirebaseDatabase.getInstance().getReference().child("rating").child(user.getUid()).child("score").push();
                         FirebaseDatabase.getInstance().getReference().child("rating").child(user.getUid()).child("score").setValue(0);
                         FirebaseDatabase.getInstance().getReference().child("UidByEmail").child(emailGood).push();

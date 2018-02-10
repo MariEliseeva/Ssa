@@ -11,8 +11,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import alekhina_eliseeva.ssa.PlayResultSong;
-
 public class Communication {
     static void getSuggestList(final ArrayAdapter arrayAdapter, final ArrayList arrayList) {
         FirebaseDatabase.getInstance().getReference().addValueEventListener(new ValueEventListener() {
@@ -65,14 +63,15 @@ public class Communication {
                 .setValue(FirebaseAuth.getInstance().getCurrentUser().getEmail());
     }
 
-    static void ignore(String email) {
+    static void ignore(String uid) {
         FirebaseDatabase.getInstance().getReference().child("messages")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child(email).removeValue();
+                .child(uid).removeValue();
     }
 
     static void fixResult(boolean res) {
         String result = res ? "lose" : "win";
+        Controller.ignore(SongsStorage.otherEmail);
         FirebaseDatabase.getInstance().getReference().child("results").child(SongsStorage.otherEmail).
                 child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(result);
     }

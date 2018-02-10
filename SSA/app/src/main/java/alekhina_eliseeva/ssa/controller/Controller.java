@@ -1,5 +1,6 @@
 package alekhina_eliseeva.ssa.controller;
 
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -14,7 +15,7 @@ public class Controller {
 
     public static void signUp(String login, String password, String username) {
         FirebaseAuth.getInstance().signOut();
-        UserInfoDataBase.addUser(login, password, username);
+        UserInfoDataBase.addUser(login, password);
         //TODO проверка email на уникальность
     }
 
@@ -27,12 +28,7 @@ public class Controller {
     }
 
     public static void getRating(ArrayAdapter arrayAdapter, ArrayList arrayList) {
-        new UserInfoDataBase().getRating(arrayAdapter, arrayList);
-    }
-
-    public static void changeScore(int score) {
-        new UserInfoDataBase().changeScore(score);
-        // TODO: ++, not =
+        UserInfoDataBase.getRating(arrayAdapter, arrayList);
     }
 
     public static boolean isUser() {
@@ -82,6 +78,14 @@ public class Controller {
 
     public static void fixResult(boolean res) {
         Communication.fixResult(res);
+        Communication.ignore(SongsStorage.otherUid);
+        if (res) {
+            UserInfoDataBase.addScore(10);
+            Log.e("AAA", "blabla");
+        } else {
+            UserInfoDataBase.addScore(-10);
+            Log.e("BBBB", "blabla");
+        }
     }
 
     public static void getResult(ArrayAdapter arrayAdapter, ArrayList arrayList) {

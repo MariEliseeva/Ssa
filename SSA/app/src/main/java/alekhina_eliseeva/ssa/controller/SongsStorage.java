@@ -41,6 +41,7 @@ public class SongsStorage {
     }
 
     static String otherEmail = "";
+    static String otherUid = "";
 
     static void getSong(final Applications activity, final ArrayList arrayList, final ArrayAdapter arrayAdapter, final String email, String part) {
 
@@ -61,6 +62,7 @@ public class SongsStorage {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 getSong1(activity, arrayList, arrayAdapter, dataSnapshot.getValue().toString());
                 Log.e("AAA", dataSnapshot.getKey());
+                otherUid = dataSnapshot.getValue().toString();
             }
 
             @Override
