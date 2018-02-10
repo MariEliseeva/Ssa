@@ -1,5 +1,6 @@
 package alekhina_eliseeva.ssa.controller;
 
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -9,18 +10,20 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 
 import alekhina_eliseeva.ssa.Applications;
+import alekhina_eliseeva.ssa.LogIn;
+import alekhina_eliseeva.ssa.SignUp;
 
 
 public class Controller {
 
-    public static void signUp(String login, String password, String username) {
+    public static void signUp(SignUp activity, String login, String password, String username) {
         FirebaseAuth.getInstance().signOut();
-        UserInfoDataBase.addUser(login, password);
+        UserInfoDataBase.addUser(activity, login, password);
         //TODO проверка email на уникальность
     }
 
-    public static void signIn(String login, String password) {
-        UserInfoDataBase.logIn(login, password);
+    public static void signIn(LogIn activity, String login, String password) {
+        UserInfoDataBase.logIn(activity, login, password);
     }
 
     public static void signOut() {

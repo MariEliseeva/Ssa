@@ -12,6 +12,15 @@ import android.widget.Toast;
 import alekhina_eliseeva.ssa.controller.Controller;
 
 public class LogIn extends AppCompatActivity {
+    public void next() {
+        Intent intent = new Intent(LogIn.this, Menu.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void notNext(){
+        Toast.makeText(LogIn.this, "Неправильный логин или пароль", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,18 +49,10 @@ public class LogIn extends AppCompatActivity {
                     String newName = nameTextView.getText().toString();
                     String newPassword = passwordTextView.getText().toString();
                     //TODO запрос на корректность
-                    Controller.signIn(newName, newPassword);
-                    boolean flag = true;
-                    if (flag) {
-                        editor.putString("name", newName);
-                        editor.putString("password", newPassword);
-                        editor.commit();
-                        Intent intent = new Intent(LogIn.this, Menu.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Toast.makeText(LogIn.this, "Неправильный логин или пароль", Toast.LENGTH_SHORT).show();
-                    }
+                    Controller.signIn(LogIn.this, newName, newPassword);
+                    editor.putString("name", newName);
+                    editor.putString("password", newPassword);
+                    editor.commit();
                 }
             });
         }

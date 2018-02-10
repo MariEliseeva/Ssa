@@ -1,5 +1,6 @@
 package alekhina_eliseeva.ssa.controller;
 
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -14,6 +15,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
+import alekhina_eliseeva.ssa.LogIn;
+import alekhina_eliseeva.ssa.SignUp;
 
 class UserInfoDataBase {
     static void getRating(final ArrayAdapter arrayAdapter, final ArrayList arrayList) {
@@ -56,24 +60,31 @@ class UserInfoDataBase {
                 });
     }
 
-    static void changeScore(int score) {
+    private static void changeScore(int score) {
         FirebaseDatabase.getInstance().getReference().child("rating")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child("score").setValue(-score);
     }
 
-    static void logIn(String email, String password) {
+    static void logIn(final LogIn activity, String email, String password) {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        activity.next();
+                    }
+                })
                 .addOnFailureListener(new OnFailureListener() {
                                           @Override
                                           public void onFailure(Exception e) {
                                               Log.e("AAAAAA", e.getMessage());
+                                              activity.notNext();
                                           }
                                       }
                 );
     }
 
-    static void addUser(final String email, String password) {
+    static void addUser(final SignUp activity, final String email, String password) {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnSuccessListener(
                 new OnSuccessListener<AuthResult>() {
                     @Override
@@ -115,13 +126,13 @@ class UserInfoDataBase {
                                 child("s3").setValue("");
                         FirebaseDatabase.getInstance().getReference().child("songNames").child(user.getUid()).
                                 child("s4").setValue("");
-
-
+                        activity.next();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(Exception e) {
                                                 Log.e("AAAAAA", e.getMessage());
+                                                activity.notNext();
                                             }
                                         }
         );

@@ -10,6 +10,15 @@ import android.widget.Toast;
 import alekhina_eliseeva.ssa.controller.Controller;
 
 public class SignUp extends AppCompatActivity {
+    public void next() {
+        Intent intent = new Intent(SignUp.this, Menu.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void notNext(){
+        Toast.makeText(SignUp.this, "Неправильный логин или пароль", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,19 +39,21 @@ public class SignUp extends AppCompatActivity {
                     Toast.makeText(SignUp.this, "Пароли не совпадают", Toast.LENGTH_LONG).show();
                 } else {
 
-                    /* TODO Вызов корректности имени*/
+                    /*
+                    // TODO Вызов корректности имени
+
                     boolean flag = true;
 
-                    if (flag) {
-                        Controller.signUp(name, password, "MARI");
+                    if (flag) {*/
+                        Controller.signUp(SignUp.this, name, password, name);
                         //TODO Нужно окошечко для имени, т.к. регистрация по email
                         //И окошечки для email -- обязательно должн быть textEmailAddress
-                        Intent i = new Intent(SignUp.this, Menu.class);
+                        /*Intent i = new Intent(SignUp.this, Menu.class);
                         startActivity(i);
                         finish();
                     } else {
                         Toast.makeText(SignUp.this, "Данное имя уже существует", Toast.LENGTH_LONG).show();
-                    }
+                    }*/
                 }
             }
         });
