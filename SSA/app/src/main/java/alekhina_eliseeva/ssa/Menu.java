@@ -1,13 +1,9 @@
 package alekhina_eliseeva.ssa;
 
-import android.*;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,34 +23,6 @@ import java.util.regex.Pattern;
 import alekhina_eliseeva.ssa.controller.Controller;
 
 public class Menu extends AppCompatActivity {
-    protected static final int PERMISSION_REQUEST_RECORD = 1;
-    protected static final int PERMISSION_REQUEST_READ = 2;
-    protected static final int PERMISSION_REQUEST_WRITE = 3;
-
-    protected void getPermissionRecorder() {
-        if (ContextCompat.checkSelfPermission(Menu.this, android.Manifest.permission.RECORD_AUDIO)
-                == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(Menu.this,
-                    new String[]{android.Manifest.permission.RECORD_AUDIO},
-                    PERMISSION_REQUEST_RECORD);
-        }
-    }
-
-    protected void getPermissionReadWrite() {
-        if (ContextCompat.checkSelfPermission(Menu.this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(Menu.this,
-                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
-                    PERMISSION_REQUEST_READ);
-        }
-
-        if (ContextCompat.checkSelfPermission(Menu.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(Menu.this,
-                    new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    PERMISSION_REQUEST_WRITE);
-        }
-    }
 
     private static void deleteUnnecessaryFiles() {
         Pattern p = Pattern.compile("music.*\\.wav");
@@ -103,8 +71,6 @@ public class Menu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        getPermissionRecorder();
-        getPermissionReadWrite();
         deleteUnnecessaryFiles();
         ListView menuList = (ListView) findViewById(R.id.ListMenu);
         final ArrayList<String> menuString = new ArrayList<>();
