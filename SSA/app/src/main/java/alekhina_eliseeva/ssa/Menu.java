@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,25 +27,31 @@ public class Menu extends AppCompatActivity {
     private static void deleteUnnecessaryFiles() {
         Pattern p = Pattern.compile("music.*\\.wav");
         File dirForSSA = new File(Environment.getExternalStorageDirectory() + File.separator + "SSA");
-        if (dirForSSA.exists()){
+        if (dirForSSA.exists()) {
             File[] files = dirForSSA.listFiles();
             for (File file : files) {
                 String fileName = file.getName();
                 Matcher m = p.matcher(fileName);
                 if (m.matches()) {
-                    file.delete();
+                    boolean deleted = file.delete();
+                    if (!deleted) {
+                        Log.e("Menu", "can't delete " + file.getAbsolutePath());
+                    }
                 }
             }
         }
 
         Pattern p1 = Pattern.compile("text.*\\.bin");
-        if (dirForSSA.exists()){
+        if (dirForSSA.exists()) {
             File[] files = dirForSSA.listFiles();
             for (File file : files) {
                 String fileName = file.getName();
                 Matcher m = p1.matcher(fileName);
                 if (m.matches()) {
-                    file.delete();
+                    boolean deleted = file.delete();
+                    if (!deleted) {
+                        Log.e("Menu", "can't delete " + file.getAbsolutePath());
+                    }
                 }
             }
         }
@@ -56,7 +63,7 @@ public class Menu extends AppCompatActivity {
         finish();
     }
 
-    public void notNext(){
+    public void notNext() {
         Toast.makeText(Menu.this, "Неправильный логин друга", Toast.LENGTH_SHORT).show();
     }
 
@@ -142,7 +149,7 @@ public class Menu extends AppCompatActivity {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("name", "");
                             editor.putString("password", "");
-                            editor.commit();
+                            editor.apply();
                             Intent intent = new Intent(Menu.this, MainActivity.class);
                             startActivity(intent);
                             Controller.signOut();
@@ -154,6 +161,7 @@ public class Menu extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(Menu.this, MainActivity.class);

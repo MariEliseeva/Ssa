@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import alekhina_eliseeva.ssa.controller.Controller;
 
 public class SignUp extends AppCompatActivity {
@@ -16,7 +17,7 @@ public class SignUp extends AppCompatActivity {
         finish();
     }
 
-    public void notNext(){
+    public void notNext() {
         Toast.makeText(SignUp.this, "Неправильный логин или пароль", Toast.LENGTH_SHORT).show();
     }
 
@@ -43,6 +44,7 @@ public class SignUp extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(SignUp.this, MainActivity.class);

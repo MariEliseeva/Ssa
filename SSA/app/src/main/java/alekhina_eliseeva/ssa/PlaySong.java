@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -57,7 +58,6 @@ public class PlaySong extends AppCompatActivity {
     }
 
 
-
     protected void getSong() {
         File file = new File(songFile);
         byte[] header = new byte[40];
@@ -73,16 +73,19 @@ public class PlaySong extends AppCompatActivity {
                 Log.e("PlaySong", "song read error");
             }
         } catch (IOException e) {
-            Log.d("PlaySong", e.getMessage());
+            Log.e("PlaySong", e.getMessage());
         }
-        file.delete();
+        boolean deleted = file.delete();
+        if (!deleted) {
+            Log.e("PlaySong", "can't delete " + file.getAbsolutePath());
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_song);
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Intent intent = getIntent();
         handler = new Handler();

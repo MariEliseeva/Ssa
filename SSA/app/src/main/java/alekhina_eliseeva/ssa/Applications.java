@@ -1,13 +1,15 @@
 package alekhina_eliseeva.ssa;
 
-import   android.content.Intent;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
 import java.util.ArrayList;
+
 import alekhina_eliseeva.ssa.controller.Controller;
 
 import static java.lang.Math.min;
@@ -21,13 +23,13 @@ public class Applications extends AppCompatActivity {
             bytes[i] = list.get(i);
         }
         int count = min(132300, bytes.length);
-        String absolutePathPieceSong = SaveFile.saveMusic( count, bytes, "music");
+        String absolutePathPieceSong = SaveFile.saveMusic(count, bytes);
         Intent intent = new Intent(Applications.this, PlayReverseSong.class);
         intent.putExtra("SongFile", absolutePathPieceSong);
-        intent.putExtra("SongBytes", SaveFile.saveBytes(bytes, "text"));
+        intent.putExtra("SongBytes", SaveFile.saveBytes(bytes));
         intent.putExtra("SongSize", bytes.length);
         intent.putExtra("StartByteNumber", count);
-        intent.putExtra("RecordBytes", SaveFile.saveBytes(new byte[0], "text"));
+        intent.putExtra("RecordBytes", SaveFile.saveBytes(new byte[0]));
         startActivity(intent);
         finish();
     }

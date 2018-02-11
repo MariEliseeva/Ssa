@@ -18,7 +18,7 @@ public class LogIn extends AppCompatActivity {
         finish();
     }
 
-    public void notNext(){
+    public void notNext() {
         Toast.makeText(LogIn.this, "Неправильный логин или пароль", Toast.LENGTH_SHORT).show();
     }
 
@@ -47,7 +47,7 @@ public class LogIn extends AppCompatActivity {
                     Controller.signIn(LogIn.this, newName, newPassword);
                     editor.putString("name", newName);
                     editor.putString("password", newPassword);
-                    editor.commit();
+                    editor.apply();
                 }
             });
         }

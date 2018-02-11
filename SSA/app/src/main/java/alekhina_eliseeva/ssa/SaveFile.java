@@ -22,8 +22,14 @@ class SaveFile {
             }
         }
         try {
-            dirForSSA.mkdirs();
-            fileForSave.createNewFile();
+            boolean createDir = dirForSSA.mkdirs();
+            if (!createDir) {
+                Log.e("SaveFile", "can't create directory");
+            }
+            boolean createFile = fileForSave.createNewFile();
+            if (!createFile) {
+                Log.e("SaveFile", "can't create " + fileForSave.getAbsolutePath());
+            }
         } catch (Exception e) {
             Log.e("SaveFile", e.getMessage());
         }
@@ -31,7 +37,8 @@ class SaveFile {
     }
 
 
-    static String saveMusic(int countByteSong, byte[] bufferForSong, String fileType) {
+    static String saveMusic(int countByteSong, byte[] bufferForSong) {
+        String fileType = "music";
         File fileForSave = createFileForSave(fileType, ".wav");
         try (FileOutputStream fos = new FileOutputStream(fileForSave)) {
             fos.write(header);
@@ -45,16 +52,16 @@ class SaveFile {
         return fileForSave.getAbsolutePath();
     }
 
-    static String saveBytes (byte[] buffer, String fileType) {
+    static String saveBytes(byte[] buffer) {
+        String fileType = "text";
         return saveBytes(buffer.length, buffer, fileType);
     }
 
-    static String saveBytes (int countByte, byte[] buffer, String fileType) {
+    static String saveBytes(int countByte, byte[] buffer, String fileType) {
         File fileForSave = createFileForSave(fileType, ".bin");
         try (FileOutputStream fos = new FileOutputStream(fileForSave)) {
             fos.write(buffer, 0, countByte);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Log.e("SaveFile", e.getMessage());
         }
         return fileForSave.getAbsolutePath();

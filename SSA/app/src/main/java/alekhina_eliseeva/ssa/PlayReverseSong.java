@@ -10,7 +10,7 @@ public class PlayReverseSong extends PlaySong {
     @Override
     public void next() {
         Intent prevIntent = getIntent();
-        String songBytesFileName  = prevIntent.getStringExtra("SongBytes");
+        String songBytesFileName = prevIntent.getStringExtra("SongBytes");
         int songSize = prevIntent.getIntExtra("SongSize", 0);
         int startByteNumber = prevIntent.getIntExtra("StartByteNumber", 0);
         String recordBytesFileName = prevIntent.getStringExtra("RecordBytes");
@@ -24,6 +24,7 @@ public class PlayReverseSong extends PlaySong {
         startActivity(intent);
         finish();
     }
+
     @Override
     public void onBackPressed() {
         AlertDialog.Builder alert = new AlertDialog.Builder(PlayReverseSong.this);

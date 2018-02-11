@@ -4,41 +4,44 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
 import alekhina_eliseeva.ssa.controller.Controller;
 
 import static java.lang.Math.min;
 
 public class ReverseSongRecording extends SongRecording {
     private byte[] song;
+
     @Override
-    protected void save(){
+    protected void save() {
         absolutePathSong = SaveFile.saveBytes(countByteSong, bufferForSong, "text");
     }
 
     private byte[] getSong(String fileName) {
         File file = new File(fileName);
         byte[] result = new byte[(int) file.length()];
-        try(FileInputStream fis = new FileInputStream(file)) {
-            fis.read(result);
-        }
-        catch (IOException e) {
+        try (FileInputStream fis = new FileInputStream(file)) {
+            int bytesNumber = fis.read(result);
+            if (bytesNumber == 0) {
+                Log.e("ReverseSongRecording", "can't read" + fileName);
+            }
+        } catch (IOException e) {
             Log.e("ReverseSongRecording", e.getMessage());
         }
         return result;
     }
 
 
-
     private void addSong(String fileName) {
         File file = new File(fileName);
-        try(FileOutputStream fos = new FileOutputStream(file, true)) {
+        try (FileOutputStream fos = new FileOutputStream(file, true)) {
             fos.write(song);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Log.e("ReverseSongRecording", e.getMessage());
         }
     }
@@ -46,11 +49,16 @@ public class ReverseSongRecording extends SongRecording {
     private byte[] getSong(String fileName, int skip, int count) {
         File file = new File(fileName);
         byte[] result = new byte[count];
-        try(FileInputStream fis = new FileInputStream(file)) {
-            fis.skip(skip);
-            fis.read(result, 0, count);
-        }
-        catch (IOException e) {
+        try (FileInputStream fis = new FileInputStream(file)) {
+            long countSkipBytes = fis.skip(skip);
+            if (countSkipBytes != skip) {
+                Log.e("ReverseSongRecording", "can't skip in" + fileName);
+            }
+            long countReadBytes = fis.read(result, 0, count);
+            if (countReadBytes != count) {
+                Log.e("ReverseSongRecording", "can't read in " + fileName);
+            }
+        } catch (IOException e) {
             Log.e("ReverseSongRecording", e.getMessage());
         }
         return result;
@@ -63,7 +71,7 @@ public class ReverseSongRecording extends SongRecording {
 //         если есть кусок, то сохраняем для прослушивания следующий кусок, считанне байты передаем между intent, переходим в playreverse song
 //         если куска нет, то добавляем записанный кусок, переворачиваем, сохраням, передаем в playreverse song
         Intent prevIntent = getIntent();
-        String songBytesFileName  = prevIntent.getStringExtra("SongBytes");
+        String songBytesFileName = prevIntent.getStringExtra("SongBytes");
         int songSize = prevIntent.getIntExtra("SongSize", 0);
         int startByteNumber = prevIntent.getIntExtra("StartByteNumber", 0);
         String recordBytesFileName = prevIntent.getStringExtra("RecordBytes");
@@ -72,16 +80,15 @@ public class ReverseSongRecording extends SongRecording {
         if (startByteNumber >= songSize) {
             byte[] resultSong = getSong(recordBytesFileName);
             resultSong = Controller.reverse(resultSong);
-            String absolutePathForResultSong = SaveFile.saveMusic(resultSong.length, resultSong, "music");
+            String absolutePathForResultSong = SaveFile.saveMusic(resultSong.length, resultSong);
             Intent intent = new Intent(ReverseSongRecording.this, PlayResultSong.class);
             intent.putExtra("SongFile", absolutePathForResultSong);
             startActivity(intent);
             finish();
-        }
-        else {
+        } else {
             int count = min(132300, songSize - startByteNumber);
             byte[] songBytes = getSong(songBytesFileName, startByteNumber, count);
-            String absolutePathForPieceSong = SaveFile.saveMusic(songBytes.length, songBytes, "music");
+            String absolutePathForPieceSong = SaveFile.saveMusic(songBytes.length, songBytes);
             Intent intent = new Intent(ReverseSongRecording.this, PlayReverseSong.class);
 
 

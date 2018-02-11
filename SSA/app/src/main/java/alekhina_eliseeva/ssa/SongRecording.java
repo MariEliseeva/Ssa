@@ -58,7 +58,8 @@ public class SongRecording extends AppCompatActivity {
         }
     }
 
-    protected void initAudioRecord(int audioSourse, int sampleRatelnHz, int channelConfig, int audioFormat) {
+    protected void initAudioRecord(int audioSourse, int channelConfig, int audioFormat) {
+        int sampleRatelnHz = 44100;
         bufferSizeForRecord = AudioRecord.getMinBufferSize(sampleRatelnHz, channelConfig, audioFormat);
         recorder = new AudioRecord(audioSourse, sampleRatelnHz, channelConfig, audioFormat, bufferSizeForRecord * 10);
     }
@@ -72,7 +73,7 @@ public class SongRecording extends AppCompatActivity {
     }
 
     protected void save() {
-        absolutePathSong = SaveFile.saveMusic(countByteSong, bufferForSong, "music");
+        absolutePathSong = SaveFile.saveMusic(countByteSong, bufferForSong);
     }
 
     private void stopRecording() {
@@ -82,6 +83,7 @@ public class SongRecording extends AppCompatActivity {
             isRecording = false;
         }
     }
+
     public void readStart() {
         new Thread(new Runnable() {
             @Override
@@ -90,8 +92,7 @@ public class SongRecording extends AppCompatActivity {
                     return;
                 countByteSong = 0;
                 bufferForSong = new byte[bufferSizeForMusic];
-                int readCount = 0;
-
+                int readCount;
                 while (isRecording && (recorder != null)) {
                     readCount = recorder.read(bufferForSong, 0, bufferSizeForMusic);
                     countByteSong += readCount;
@@ -108,7 +109,7 @@ public class SongRecording extends AppCompatActivity {
         setContentView(R.layout.activity_song_recording);
         getPermissionRecorder();
         getPermissionReadWrite();
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         final ImageButton startRecord = (ImageButton) findViewById(R.id.startRecord);
         final ImageButton stopRecord = (ImageButton) findViewById(R.id.stopRecord);
         final Button nextButton = (Button) findViewById(R.id.next);
@@ -123,7 +124,7 @@ public class SongRecording extends AppCompatActivity {
                 startRecord.setEnabled(false);
                 stopRecord.setVisibility(View.VISIBLE);
                 stopRecord.setEnabled(true);
-                initAudioRecord(MediaRecorder.AudioSource.MIC, 44100, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
+                initAudioRecord(MediaRecorder.AudioSource.MIC, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
                 isRecording = true;
                 try {
                     recorder.startRecording();
