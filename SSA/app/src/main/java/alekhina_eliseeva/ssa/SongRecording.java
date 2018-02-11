@@ -107,6 +107,7 @@ public class SongRecording extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_recording);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getPermissionRecorder();
         getPermissionReadWrite();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

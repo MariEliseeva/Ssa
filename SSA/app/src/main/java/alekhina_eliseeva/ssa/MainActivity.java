@@ -1,6 +1,7 @@
 package alekhina_eliseeva.ssa;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getPermissionRecorder();
         getPermissionReadWrite();
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Button buttonFromMainToSignUp = (Button) findViewById(R.id.ButtonFromMainToSignUp);
         buttonFromMainToSignUp.setOnClickListener(new View.OnClickListener() {
             @Override

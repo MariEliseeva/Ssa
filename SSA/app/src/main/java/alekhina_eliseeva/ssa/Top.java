@@ -1,6 +1,7 @@
 package alekhina_eliseeva.ssa;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -16,6 +17,7 @@ public class Top extends AppCompatActivity {
         ArrayList<String> songNames = new ArrayList<>();
         ArrayAdapter<String> arrayAdapter;
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_top);
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, songNames);
         Controller.getRating(arrayAdapter, songNames);
