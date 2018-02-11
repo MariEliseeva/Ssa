@@ -16,10 +16,10 @@ public class LastResult extends AppCompatActivity {
         //tw.setText(Controller.getEmail());
 
         ArrayList<String> result = new ArrayList<>();
-        ArrayAdapter arrayAdapter;
+        ArrayAdapter<String> arrayAdapter;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_last_result);
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, result);
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, result);
         Controller.getResult(arrayAdapter, result);
 
         ListView list = (ListView) findViewById(R.id.List);

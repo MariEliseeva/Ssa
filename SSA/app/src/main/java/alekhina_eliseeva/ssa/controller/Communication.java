@@ -1,6 +1,5 @@
 package alekhina_eliseeva.ssa.controller;
 
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -11,18 +10,20 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import alekhina_eliseeva.ssa.PlayResultSong;
+import alekhina_eliseeva.ssa.Menu;
 
-public class Communication {
-    static void getSuggestList(final ArrayAdapter arrayAdapter, final ArrayList arrayList) {
-        FirebaseDatabase.getInstance().getReference().addValueEventListener(new ValueEventListener() {
+class Communication {
+    static void getSuggestList(final ArrayAdapter<String> arrayAdapter,
+                               final ArrayList<String> arrayList) {
+        FirebaseDatabase.getInstance().getReference()
+                .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 arrayList.clear();
                 dataSnapshot = dataSnapshot.child("messages")
                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 for (DataSnapshot c : dataSnapshot.getChildren()) {
-                    arrayList.add(c.getValue());
+                    arrayList.add(c.getValue().toString());
                 }
                 arrayAdapter.notifyDataSetChanged();
             }
@@ -33,7 +34,7 @@ public class Communication {
         });
     }
 
-    static void suggest(final String email) {
+    static void suggest(final Menu activity, final String email) {
         String emailGood1 = "";
         for (int i = 0; i < email.length(); i++) {
             if (email.charAt(i) == '.') {
@@ -46,14 +47,18 @@ public class Communication {
         FirebaseDatabase.getInstance().getReference().child("UidByEmail").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.e("AAA", dataSnapshot.getValue().toString());
-                Log.e("BBB", emailGood);
-                suggest2(dataSnapshot.child(emailGood).getValue().toString());
+                try {
+                    suggest2(dataSnapshot.child(emailGood).getValue().toString());
+                } catch (Exception e) {
+                    activity.notNext();
+                    return;
+                }
+                activity.next();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                activity.notNext();
             }
         });
     }
@@ -65,25 +70,26 @@ public class Communication {
                 .setValue(FirebaseAuth.getInstance().getCurrentUser().getEmail());
     }
 
-    static void ignore(String email) {
+    static void ignore(String uid) {
         FirebaseDatabase.getInstance().getReference().child("messages")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child(email).removeValue();
+                .child(uid).removeValue();
     }
 
     static void fixResult(boolean res) {
         String result = res ? "lose" : "win";
+        Controller.ignore(SongsStorage.otherEmail);
         FirebaseDatabase.getInstance().getReference().child("results").child(SongsStorage.otherEmail).
                 child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(result);
     }
 
-    static void getResult(final ArrayAdapter arrayAdapter, final ArrayList arrayList) {
+    static void getResult(final ArrayAdapter<String> arrayAdapter, final ArrayList<String> arrayList) {
         final String emailGood = SongsStorage.otherEmail;
         FirebaseDatabase.getInstance().getReference().child("results").child(emailGood)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        arrayList.add(dataSnapshot.getValue());
+                        arrayList.add(dataSnapshot.getValue().toString());
                         arrayAdapter.notifyDataSetChanged();
                     }
 

@@ -4,10 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 
-/**
- * Created by olya on 27.12.17.
- */
-
 public class PlayResultSong extends PlaySong {
     @Override
     public void next() {

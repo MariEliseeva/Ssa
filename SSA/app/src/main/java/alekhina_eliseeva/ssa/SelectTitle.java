@@ -21,10 +21,10 @@ public class SelectTitle extends AppCompatActivity {
         setContentView(R.layout.activity_select_title);
 
         ListView selectListView = (ListView) findViewById(R.id.SelectRightAnswer);
-        final ArrayList<String> variantiesList = new ArrayList<>();
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, variantiesList);
+        final ArrayList<String> variantsList = new ArrayList<>();
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, variantsList);
         selectListView.setAdapter(arrayAdapter);
-        Controller.getVariants(arrayAdapter, variantiesList);
+        Controller.getVariants(arrayAdapter, variantsList);
         selectListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -36,7 +36,6 @@ public class SelectTitle extends AppCompatActivity {
                     Toast.makeText(SelectTitle.this, "=( Вы проиграли", Toast.LENGTH_SHORT).show();
                 }
 
-                //TODO убрать из списка возможных игр
                 Intent intent = new Intent(SelectTitle.this, Menu.class);
                 startActivity(intent);
                 finish();
@@ -51,7 +50,7 @@ public class SelectTitle extends AppCompatActivity {
         alert.setPositiveButton("Да", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO сказать контроллеру, что автоматически проигрывает
+                Controller.fixResult(false);
                 Intent intent = new Intent(SelectTitle.this, Menu.class);
                 startActivity(intent);
                 finish();

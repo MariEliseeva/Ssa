@@ -25,7 +25,7 @@ public class AnswerOption extends AppCompatActivity {
 
         final ListView answers = (ListView) findViewById(R.id.Answers);
         final ArrayList<String> answersList = new ArrayList<>();
-        final ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, answersList);
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, answersList);
         final EditText addAnswer = (EditText) findViewById(R.id.addAnswer);
         answers.setAdapter(arrayAdapter);
         Button add = (Button) findViewById(R.id.add);
