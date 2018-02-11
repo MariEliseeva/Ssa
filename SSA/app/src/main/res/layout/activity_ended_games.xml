@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="alekhina_eliseeva.ssa.ChooseSong">
+    tools:context="alekhina_eliseeva.ssa.EndedGames">
 
     <ListView
-        android:id="@+id/ListSong"
-        android:layout_width="275dp"
+        android:id="@+id/ListEndedGames"
+        android:layout_width="368dp"
         android:layout_height="495dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.146"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

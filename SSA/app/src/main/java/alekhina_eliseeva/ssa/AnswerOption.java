@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,9 @@ public class AnswerOption extends AppCompatActivity {
         final ArrayList<String> answersList = new ArrayList<>();
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, answersList);
         final EditText addAnswer = (EditText) findViewById(R.id.addAnswer);
+        final TextView textView = (TextView) findViewById(R.id.textView);
+        textView.setText("Введите 4 варианта ответа и нажмите на правильный");
+
         answers.setAdapter(arrayAdapter);
         Button add = (Button) findViewById(R.id.add);
         add.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +67,7 @@ public class AnswerOption extends AppCompatActivity {
         alert.setPositiveButton("Да", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO сказать контроллеру, что заявка на  игру отменена
+                Controller.cancel();
                 Intent intent = new Intent(AnswerOption.this, Menu.class);
                 startActivity(intent);
                 finish();

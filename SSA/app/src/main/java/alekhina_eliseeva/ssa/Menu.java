@@ -71,8 +71,7 @@ public class Menu extends AppCompatActivity {
         menuList.setAdapter(arrayAdapter);
         menuString.add("Играть с другом");
         menuString.add("Заявки на игру");
-        menuString.add("Активные игры");
-        menuString.add("Текущая игра");
+        menuString.add("Завершенные игры");
         menuString.add("Рейтинг");
         menuString.add("Выйти");
         arrayAdapter.notifyDataSetChanged();
@@ -116,9 +115,9 @@ public class Menu extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
-                if (whatToDo.equals("Текущая игра")) {
-                    //Intent intent = new Intent(Menu.this, LastResult.class);
-                    //startActivity(intent);
+                if (whatToDo.equals("Завершенные игры")) {
+                    Intent intent = new Intent(Menu.this, EndedGames.class);
+                    startActivity(intent);
                 }
                 if (whatToDo.equals("Выйти")) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(Menu.this);

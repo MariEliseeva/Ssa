@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 
+import alekhina_eliseeva.ssa.controller.Controller;
+
 public class PlayResultSong extends PlaySong {
     @Override
     public void next() {
@@ -22,7 +24,7 @@ public class PlayResultSong extends PlaySong {
                 if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                     mediaPlayer.stop();
                 }
-                //TODO сказать контроллеру, что автоматически проигрывает
+                Controller.fixResult(false);
                 Intent intent = new Intent(PlayResultSong.this, Menu.class);
                 startActivity(intent);
                 finish();

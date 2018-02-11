@@ -13,28 +13,7 @@ import alekhina_eliseeva.ssa.controller.Controller;
 import static java.lang.Math.min;
 
 public class ReverseSongRecording extends SongRecording {
-    //private String songFile;
     private byte[] song;
-
-    /*private void getSong() {
-        File file = new File(songFile);
-        byte[] header = new byte[44];
-        song = new byte[(int) file.length() - 44];
-        try {
-            FileInputStream fis = new FileInputStream(file);
-            int countReadBytes = fis.read(header);
-            if (countReadBytes < header.length) {
-                Log.e("ReverseSongRecording", "header reading error");
-            }
-            countReadBytes = fis.read(song);
-            if (countReadBytes < song.length) {
-                Log.e("ReverseSongRecording", "song reading error");
-            }
-        } catch (IOException e) {
-            Log.e("ReverseSongRecording", e.getMessage());
-        }
-    }*/
-
     @Override
     protected void save(){
         absolutePathSong = SaveFile.saveBytes(countByteSong, bufferForSong, "text");
@@ -125,7 +104,6 @@ public class ReverseSongRecording extends SongRecording {
         alert.setPositiveButton("Да", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO сказать контроллеру, что автоматически проигрывает
                 Controller.fixResult(false);
                 Intent intent = new Intent(ReverseSongRecording.this, Menu.class);
                 startActivity(intent);

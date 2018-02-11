@@ -5,28 +5,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
 import java.util.ArrayList;
 
 import alekhina_eliseeva.ssa.controller.Controller;
 
-public class Top extends AppCompatActivity {
+public class EndedGames extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ArrayList<String> songNames = new ArrayList<>();
         ArrayAdapter<String> arrayAdapter;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_top);
+        setContentView(R.layout.activity_ended_games);
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, songNames);
-        Controller.getRating(arrayAdapter, songNames);
+        Controller.getResults(arrayAdapter, songNames);
 
-        ListView songList = (ListView) findViewById(R.id.ListSong);
+        ListView songList = (ListView) findViewById(R.id.ListEndedGames);
         songList.setAdapter(arrayAdapter);
         arrayAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(Top.this, Menu.class);
+        Intent intent = new Intent(EndedGames.this, Menu.class);
         startActivity(intent);
         finish();
     }

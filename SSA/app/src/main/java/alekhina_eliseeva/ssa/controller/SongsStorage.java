@@ -73,7 +73,7 @@ class SongsStorage {
     private static void getSong1(final Applications activity, final ArrayList<Byte> list,
                                  final ArrayAdapter<Byte> arrayAdapter, String address) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(address);
-        final long MANY_MEGABYTE = 1024 * 1024 * 6;
+        final long MANY_MEGABYTE = 13230000;
         storageReference.getBytes(MANY_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
@@ -82,7 +82,6 @@ class SongsStorage {
                 }
                 arrayAdapter.notifyDataSetChanged();
                 activity.next();
-
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

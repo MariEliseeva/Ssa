@@ -106,8 +106,10 @@ class UserInfoDataBase {
                         FirebaseDatabase.getInstance().getReference().child("rating").child(user.getUid()).child("score").setValue(0);
                         FirebaseDatabase.getInstance().getReference().child("UidByEmail").child(emailGood).push();
                         FirebaseDatabase.getInstance().getReference().child("UidByEmail").child(emailGood).setValue(user.getUid());
-                        FirebaseDatabase.getInstance().getReference().child("messages").child(user.getUid()).push();
-                        FirebaseDatabase.getInstance().getReference().child("messages").child(user.getUid()).setValue("");
+
+                        FirebaseDatabase.getInstance().getReference().child("messages").child(user.getUid()).child(" ").push();
+                        FirebaseDatabase.getInstance().getReference().child("messages").child(user.getUid()).child(" ").setValue("");
+
                         FirebaseDatabase.getInstance().getReference().child("songNames").child(user.getUid()).push();
                         FirebaseDatabase.getInstance().getReference().child("songNames").child(user.getUid()).
                                 child("s1").push();

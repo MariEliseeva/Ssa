@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.support.v7.app.AlertDialog;
 
+import alekhina_eliseeva.ssa.controller.Controller;
+
 public class SongRecording extends AppCompatActivity {
     protected static final int PERMISSION_REQUEST_RECORD = 1;
     protected static final int PERMISSION_REQUEST_READ = 2;
@@ -172,6 +174,7 @@ public class SongRecording extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 stopRecording();
+                Controller.cancel();
                 Intent intent = new Intent(SongRecording.this, Menu.class);
                 startActivity(intent);
                 finish();

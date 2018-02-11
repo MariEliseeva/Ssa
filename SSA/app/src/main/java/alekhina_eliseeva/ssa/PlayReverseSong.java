@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 
+import alekhina_eliseeva.ssa.controller.Controller;
+
 public class PlayReverseSong extends PlaySong {
     @Override
     public void next() {
@@ -32,7 +34,7 @@ public class PlayReverseSong extends PlaySong {
                 if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                     mediaPlayer.stop();
                 }
-                //TODO сказать контроллеру, что автоматически проигрывает
+                Controller.fixResult(false);
                 Intent intent = new Intent(PlayReverseSong.this, Menu.class);
                 startActivity(intent);
                 finish();

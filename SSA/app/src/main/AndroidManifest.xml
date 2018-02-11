@@ -32,7 +32,7 @@
         <activity android:name=".PlayResultSong" />
         <activity android:name=".ReverseSongRecording" />
         <activity android:name=".SelectTitle" />
-        <activity android:name=".LastResult"></activity>
+        <activity android:name=".EndedGames"></activity>
     </application>
 
 </manifest>

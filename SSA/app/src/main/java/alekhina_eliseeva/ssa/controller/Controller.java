@@ -12,6 +12,7 @@ import alekhina_eliseeva.ssa.Applications;
 import alekhina_eliseeva.ssa.LogIn;
 import alekhina_eliseeva.ssa.Menu;
 import alekhina_eliseeva.ssa.SignUp;
+import alekhina_eliseeva.ssa.SongRecording;
 
 
 public class Controller {
@@ -73,20 +74,22 @@ public class Controller {
         Communication.ignore(email);
     }
 
+    public static void cancel() {
+        Communication.cancel(Communication.friendUid);
+    }
+
     public static void fixResult(boolean res) {
         Communication.fixResult(res);
         Communication.ignore(SongsStorage.otherUid);
         if (res) {
             UserInfoDataBase.addScore(10);
-            Log.e("AAA", "blabla");
         } else {
             UserInfoDataBase.addScore(-10);
-            Log.e("BBBB", "blabla");
         }
     }
 
-    public static void getResult(ArrayAdapter<String> arrayAdapter, ArrayList<String> arrayList) {
-        Communication.getResult(arrayAdapter, arrayList);
+    public static void getResults(ArrayAdapter<String> arrayAdapter, ArrayList<String> arrayList) {
+        Communication.getResults(arrayAdapter, arrayList);
     }
 
     public static byte[] reverse(byte[] bytes) {

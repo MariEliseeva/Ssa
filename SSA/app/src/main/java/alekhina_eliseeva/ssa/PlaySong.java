@@ -174,7 +174,7 @@ public class PlaySong extends AppCompatActivity {
                 if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                     mediaPlayer.stop();
                 }
-                //TODO сказать контроллеру, что заявка на  игру отменена
+                Controller.cancel();
                 Intent intent = new Intent(PlaySong.this, Menu.class);
                 startActivity(intent);
                 finish();
