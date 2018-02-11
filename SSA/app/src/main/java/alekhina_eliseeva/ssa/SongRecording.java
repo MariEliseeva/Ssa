@@ -3,6 +3,7 @@ package alekhina_eliseeva.ssa;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -105,6 +106,7 @@ public class SongRecording extends AppCompatActivity {
         setContentView(R.layout.activity_song_recording);
         getPermissionRecorder();
         getPermissionReadWrite();
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         final ImageButton startRecord = (ImageButton) findViewById(R.id.startRecord);
         final ImageButton stopRecord = (ImageButton) findViewById(R.id.stopRecord);
         final Button nextButton = (Button) findViewById(R.id.next);
