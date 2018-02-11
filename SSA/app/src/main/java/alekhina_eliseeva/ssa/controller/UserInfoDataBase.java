@@ -42,11 +42,11 @@ class UserInfoDataBase {
         });
     }
 
-    private static int max(int e1, int e2) {
-        if (e1 > e2) {
-            return e1;
+    private static int max(int e1) {
+        if (0 > e1) {
+            return 0;
         }
-        return e2;
+        return e1;
     }
 
     static void addScore(final int score) {
@@ -55,7 +55,7 @@ class UserInfoDataBase {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot c) {
-                        changeScore(max(0, -Integer.valueOf(c.child("score").getValue().toString()) + score));
+                        changeScore(max( -Integer.valueOf(c.child("score").getValue().toString()) + score));
                     }
 
                     @Override
@@ -92,20 +92,20 @@ class UserInfoDataBase {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        String emailGood = "";
+                        StringBuilder emailGood = new StringBuilder();
                         for (int i = 0; i < email.length(); i++) {
                             if (email.charAt(i) == '.') {
-                                emailGood += ',';
+                                emailGood.append(',');
                             } else {
-                                emailGood += email.charAt(i);
+                                emailGood.append(email.charAt(i));
                             }
                         }
                         FirebaseDatabase.getInstance().getReference().child("rating").child(user.getUid()).child("userName").push();
                         FirebaseDatabase.getInstance().getReference().child("rating").child(user.getUid()).child("userName").setValue(email);
                         FirebaseDatabase.getInstance().getReference().child("rating").child(user.getUid()).child("score").push();
                         FirebaseDatabase.getInstance().getReference().child("rating").child(user.getUid()).child("score").setValue(0);
-                        FirebaseDatabase.getInstance().getReference().child("UidByEmail").child(emailGood).push();
-                        FirebaseDatabase.getInstance().getReference().child("UidByEmail").child(emailGood).setValue(user.getUid());
+                        FirebaseDatabase.getInstance().getReference().child("UidByEmail").child(emailGood.toString()).push();
+                        FirebaseDatabase.getInstance().getReference().child("UidByEmail").child(emailGood.toString()).setValue(user.getUid());
 
                         FirebaseDatabase.getInstance().getReference().child("messages").child(user.getUid()).child(" ").push();
                         FirebaseDatabase.getInstance().getReference().child("messages").child(user.getUid()).child(" ").setValue("");

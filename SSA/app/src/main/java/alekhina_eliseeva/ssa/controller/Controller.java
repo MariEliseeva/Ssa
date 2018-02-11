@@ -1,6 +1,5 @@
 package alekhina_eliseeva.ssa.controller;
 
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -12,7 +11,6 @@ import alekhina_eliseeva.ssa.Applications;
 import alekhina_eliseeva.ssa.LogIn;
 import alekhina_eliseeva.ssa.Menu;
 import alekhina_eliseeva.ssa.SignUp;
-import alekhina_eliseeva.ssa.SongRecording;
 
 
 public class Controller {
@@ -70,7 +68,7 @@ public class Controller {
         Communication.getSuggestList(arrayAdapter, arrayList);
     }
 
-    public static void ignore(String email) {
+    static void ignore(String email) {
         Communication.ignore(email);
     }
 

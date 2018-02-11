@@ -22,7 +22,7 @@ import java.util.Random;
 import alekhina_eliseeva.ssa.Applications;
 
 class SongsStorage {
-    static String addSong(byte[] data) {
+    static void addSong(byte[] data) {
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference()
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -36,7 +36,6 @@ class SongsStorage {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
             }
         });
-        return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     static String otherEmail = "";
@@ -44,15 +43,15 @@ class SongsStorage {
 
     static void getSong(final Applications activity, final ArrayList<Byte> arrayList,
                         final ArrayAdapter<Byte> arrayAdapter, final String email) {
-        String emailGood1 = "";
+        StringBuilder emailGood1 = new StringBuilder();
         for (int i = 0; i < email.length(); i++) {
             if (email.charAt(i) == '.') {
-                emailGood1 += ',';
+                emailGood1.append(',');
             } else {
-                emailGood1 += email.charAt(i);
+                emailGood1.append(email.charAt(i));
             }
         }
-        final String emailGood = emailGood1.toLowerCase();
+        final String emailGood = emailGood1.toString().toLowerCase();
         otherEmail = emailGood;
 
         FirebaseDatabase.getInstance().getReference().child("UidByEmail")

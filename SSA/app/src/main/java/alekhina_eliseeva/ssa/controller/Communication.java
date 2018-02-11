@@ -23,7 +23,7 @@ class Communication {
                 dataSnapshot = dataSnapshot.child("messages")
                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 for (DataSnapshot c : dataSnapshot.getChildren()) {
-                    if (c.getKey().toString().equals(" ")) {
+                    if (c.getKey().equals(" ")) {
                         continue;
                     }
                     arrayList.add(c.getValue().toString());
@@ -40,15 +40,15 @@ class Communication {
     static String friendUid = "";
 
     static void suggest(final Menu activity, final String email) {
-        String emailGood1 = "";
+        StringBuilder emailGood1 = new StringBuilder();
         for (int i = 0; i < email.length(); i++) {
             if (email.charAt(i) == '.') {
-                emailGood1 += ',';
+                emailGood1.append(',');
             } else {
-                emailGood1 += email.charAt(i);
+                emailGood1.append(email.charAt(i));
             }
         }
-        final String emailGood = emailGood1.toLowerCase();
+        final String emailGood = emailGood1.toString().toLowerCase();
         FirebaseDatabase.getInstance().getReference().child("UidByEmail").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -89,15 +89,15 @@ class Communication {
     }
 
     static void fixResult(boolean res) {
-        String emailGood1 = "";
+        StringBuilder emailGood1 = new StringBuilder();
         for (int i = 0; i < FirebaseAuth.getInstance().getCurrentUser().getEmail().length(); i++) {
             if (FirebaseAuth.getInstance().getCurrentUser().getEmail().charAt(i) == '.') {
-                emailGood1 += ',';
+                emailGood1.append(',');
             } else {
-                emailGood1 += FirebaseAuth.getInstance().getCurrentUser().getEmail().charAt(i);
+                emailGood1.append(FirebaseAuth.getInstance().getCurrentUser().getEmail().charAt(i));
             }
         }
-        final String emailGood = emailGood1.toLowerCase();
+        final String emailGood = emailGood1.toString().toLowerCase();
         String result = res ? "выиграл" : "проиграл";
         Controller.ignore(SongsStorage.otherEmail);
         FirebaseDatabase.getInstance().getReference().child("results").child(SongsStorage.otherEmail).
@@ -105,15 +105,15 @@ class Communication {
     }
 
     static void getResults(final ArrayAdapter<String> arrayAdapter, final ArrayList<String> arrayList) {
-        String emailGood1 = "";
+        StringBuilder emailGood1 = new StringBuilder();
         for (int i = 0; i < FirebaseAuth.getInstance().getCurrentUser().getEmail().length(); i++) {
             if (FirebaseAuth.getInstance().getCurrentUser().getEmail().charAt(i) == '.') {
-                emailGood1 += ',';
+                emailGood1.append(',');
             } else {
-                emailGood1 += FirebaseAuth.getInstance().getCurrentUser().getEmail().charAt(i);
+                emailGood1.append(FirebaseAuth.getInstance().getCurrentUser().getEmail().charAt(i));
             }
         }
-        final String emailGood = emailGood1.toLowerCase();
+        final String emailGood = emailGood1.toString().toLowerCase();
         FirebaseDatabase.getInstance().getReference().child("results").child(emailGood)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -121,15 +121,15 @@ class Communication {
                         arrayList.clear();
                         for (DataSnapshot c : dataSnapshot.getChildren()) {
                             String email = c.getKey();
-                            String emailGood2 = "";
+                            StringBuilder emailGood2 = new StringBuilder();
                             for (int i = 0; i < email.length(); i++) {
                                 if (email.charAt(i) == ',') {
-                                    emailGood2 += '.';
+                                    emailGood2.append('.');
                                 } else {
-                                    emailGood2 += email.charAt(i);
+                                    emailGood2.append(email.charAt(i));
                                 }
                             }
-                            arrayList.add(emailGood2.toLowerCase() + " " + c.getValue());
+                            arrayList.add(emailGood2.toString().toLowerCase() + " " + c.getValue());
                         }
                         arrayAdapter.notifyDataSetChanged();
                     }
