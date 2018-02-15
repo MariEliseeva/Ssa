@@ -127,6 +127,7 @@ public class Menu extends AppCompatActivity {
                 if (whatToDo.equals("Завершенные игры")) {
                     Intent intent = new Intent(Menu.this, EndedGames.class);
                     startActivity(intent);
+                    finish();
                 }
                 if (whatToDo.equals("Выйти")) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(Menu.this);
