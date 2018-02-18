@@ -1,6 +1,7 @@
 package alekhina_eliseeva.ssa;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,18 +9,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+
 import alekhina_eliseeva.ssa.controller.Controller;
 
 public class SignUp extends AppCompatActivity {
-    public void next() {
-        Intent intent = new Intent(SignUp.this, Menu.class);
-        startActivity(intent);
-        finish();
-    }
-
-    public void notNext() {
-        Toast.makeText(SignUp.this, "Неправильный логин или пароль", Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +35,19 @@ public class SignUp extends AppCompatActivity {
                 if (!password.equals(confirmPassword)) {
                     Toast.makeText(SignUp.this, "Пароли не совпадают", Toast.LENGTH_LONG).show();
                 } else {
-                    Controller.signUp(SignUp.this, name, password);
+                    Controller.signUp(name, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            Intent intent = new Intent(SignUp.this, Menu.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(SignUp.this, "Неправильный логин или пароль", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });

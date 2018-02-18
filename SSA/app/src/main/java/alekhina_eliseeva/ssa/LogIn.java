@@ -2,6 +2,7 @@ package alekhina_eliseeva.ssa;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,19 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+
 import alekhina_eliseeva.ssa.controller.Controller;
 
 public class LogIn extends AppCompatActivity {
-    public void next() {
-        Intent intent = new Intent(LogIn.this, Menu.class);
-        startActivity(intent);
-        finish();
-    }
-
-    public void notNext() {
-        Toast.makeText(LogIn.this, "Неправильный логин или пароль", Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +39,19 @@ public class LogIn extends AppCompatActivity {
                     EditText passwordTextView = (EditText) findViewById(R.id.TextAddPassword);
                     String newName = nameTextView.getText().toString();
                     String newPassword = passwordTextView.getText().toString();
-                    Controller.signIn(LogIn.this, newName, newPassword);
+                    Controller.signIn(newName, newPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            Intent intent = new Intent(LogIn.this, Menu.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(LogIn.this, "Неправильный логин или пароль", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     editor.putString("name", newName);
                     editor.putString("password", newPassword);
                     editor.apply();
