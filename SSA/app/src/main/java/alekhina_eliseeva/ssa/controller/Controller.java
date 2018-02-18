@@ -2,34 +2,33 @@ package alekhina_eliseeva.ssa.controller;
 
 import android.widget.ArrayAdapter;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-
-import java.util.ArrayList;
+import java.util.List;
 
 import alekhina_eliseeva.ssa.Applications;
-import alekhina_eliseeva.ssa.LogIn;
 import alekhina_eliseeva.ssa.Menu;
-import alekhina_eliseeva.ssa.SignUp;
 
 
 public class Controller {
 
-    public static void signUp(SignUp activity, String login, String password) {
+    public static Task<AuthResult> signUp(String login, String password) {
         FirebaseAuth.getInstance().signOut();
-        UserInfoDataBase.addUser(activity, login, password);
+        return UserInfoDataBase.addUser(login, password);
     }
 
-    public static void signIn(LogIn activity, String login, String password) {
-        UserInfoDataBase.logIn(activity, login, password);
+    public static Task<AuthResult> signIn(String login, String password) {
+        return UserInfoDataBase.logIn(login, password);
     }
 
     public static void signOut() {
         UserInfoDataBase.signOut();
     }
 
-    public static void getRating(ArrayAdapter<String> arrayAdapter, ArrayList<String> arrayList) {
-        UserInfoDataBase.getRating(arrayAdapter, arrayList);
+    public static void getRating(ArrayAdapter<String> arrayAdapter, List<String> list) {
+        UserInfoDataBase.getRating(arrayAdapter, list);
     }
 
     public static void addSong(byte[] data) {
@@ -45,9 +44,8 @@ public class Controller {
         Communication.suggest(activity, email);
     }
 
-    public static void getSong(Applications activity, ArrayAdapter<Byte> arrayAdapter,
-                               ArrayList<Byte> arrayList, String name) {
-        SongsStorage.getSong(activity, arrayList, arrayAdapter, name);
+    public static void getSong(Applications activity, String name) {
+        SongsStorage.getSong(activity, name);
     }
 
     private static int rightAnswer;
@@ -60,12 +58,12 @@ public class Controller {
         rightAnswer = newAnswer;
     }
 
-    public static void getVariants(ArrayAdapter<String> arrayAdapter, ArrayList<String> arrayList) {
-        SongsStorage.getVariants(arrayList, arrayAdapter);
+    public static void getVariants(ArrayAdapter<String> arrayAdapter, List<String> list) {
+        SongsStorage.getVariants(list, arrayAdapter);
     }
 
-    public static void getSuggestList(ArrayAdapter<String> arrayAdapter, ArrayList<String> arrayList) {
-        Communication.getSuggestList(arrayAdapter, arrayList);
+    public static void getSuggestList(ArrayAdapter<String> arrayAdapter, List<String> list) {
+        Communication.getSuggestList(arrayAdapter, list);
     }
 
     static void ignore(String email) {
@@ -86,8 +84,8 @@ public class Controller {
         }
     }
 
-    public static void getResults(ArrayAdapter<String> arrayAdapter, ArrayList<String> arrayList) {
-        Communication.getResults(arrayAdapter, arrayList);
+    public static void getResults(ArrayAdapter<String> arrayAdapter, List<String> list) {
+        Communication.getResults(arrayAdapter, list);
     }
 
     public static byte[] reverse(byte[] bytes) {

@@ -16,13 +16,7 @@ import alekhina_eliseeva.ssa.controller.Controller;
 import static java.lang.Math.min;
 
 public class Applications extends AppCompatActivity {
-    private ArrayList<Byte> list = new ArrayList<>();
-
-    public void next() {
-        byte[] bytes = new byte[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            bytes[i] = list.get(i);
-        }
+    public void next(byte[] bytes) {
         int count = min(132300, bytes.length);
         String absolutePathPieceSong = SaveFile.saveMusic(count, bytes);
         Intent intent = new Intent(Applications.this, PlayReverseSong.class);
@@ -49,8 +43,7 @@ public class Applications extends AppCompatActivity {
         applicationsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ArrayAdapter<Byte> arrayAdapterMary = new ArrayAdapter<>(Applications.this, android.R.layout.simple_list_item_1, list);
-                Controller.getSong(Applications.this, arrayAdapterMary, list, nameUserWhoWantPlay.get(i));
+               Controller.getSong(Applications.this, nameUserWhoWantPlay.get(i));
             }
         });
 

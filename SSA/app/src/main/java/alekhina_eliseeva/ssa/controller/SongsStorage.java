@@ -8,22 +8,24 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 import alekhina_eliseeva.ssa.Applications;
 
 class SongsStorage {
-    static void addSong(byte[] data) {
+    private static DatabaseReference FirebaseRef = FirebaseDatabase.getInstance().getReference();
 
+    static void addSong(byte[] data) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference()
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         UploadTask uploadTask = storageReference.putBytes(data);
@@ -41,8 +43,7 @@ class SongsStorage {
     static String otherEmail = "";
     static String otherUid = "";
 
-    static void getSong(final Applications activity, final ArrayList<Byte> arrayList,
-                        final ArrayAdapter<Byte> arrayAdapter, final String email) {
+    static void getSong(final Applications activity, final String email) {
         StringBuilder emailGood1 = new StringBuilder();
         for (int i = 0; i < email.length(); i++) {
             if (email.charAt(i) == '.') {
@@ -54,11 +55,11 @@ class SongsStorage {
         final String emailGood = emailGood1.toString().toLowerCase();
         otherEmail = emailGood;
 
-        FirebaseDatabase.getInstance().getReference().child("UidByEmail")
+        FirebaseRef.child("UidByEmail")
                 .child(emailGood).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                getSong1(activity, arrayList, arrayAdapter, dataSnapshot.getValue().toString());
+                getSong1(activity, dataSnapshot.getValue().toString());
                 otherUid = dataSnapshot.getValue().toString();
             }
 
@@ -69,18 +70,13 @@ class SongsStorage {
         });
     }
 
-    private static void getSong1(final Applications activity, final ArrayList<Byte> list,
-                                 final ArrayAdapter<Byte> arrayAdapter, String address) {
+    private static void getSong1(final Applications activity, String address) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(address);
         final long MANY_MEGABYTE = 13230000;
         storageReference.getBytes(MANY_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
-                for (byte e : bytes) {
-                    list.add(e);
-                }
-                arrayAdapter.notifyDataSetChanged();
-                activity.next();
+                activity.next(bytes);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -90,25 +86,25 @@ class SongsStorage {
     }
 
     static void addNames(String v1, String v2, String v3, String v4) {
-        FirebaseDatabase.getInstance().getReference().child("songNames")
+        FirebaseRef.child("songNames")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("s1").setValue(v1);
-        FirebaseDatabase.getInstance().getReference().child("songNames")
+        FirebaseRef.child("songNames")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("s2").setValue(v2);
-        FirebaseDatabase.getInstance().getReference().child("songNames")
+        FirebaseRef.child("songNames")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("s3").setValue(v3);
-        FirebaseDatabase.getInstance().getReference().child("songNames")
+        FirebaseRef.child("songNames")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("s4").setValue(v4);
     }
 
 
 
-    static void getVariants(final ArrayList<String> arrayList, final ArrayAdapter<String> arrayAdapter) {
+    static void getVariants(final List<String> list, final ArrayAdapter<String> arrayAdapter) {
         final String emailGood = otherEmail;
-        FirebaseDatabase.getInstance().getReference().child("UidByEmail")
+        FirebaseRef.child("UidByEmail")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                getVariants2(dataSnapshot.child(emailGood).getValue().toString(), arrayList, arrayAdapter);
+                getVariants2(dataSnapshot.child(emailGood).getValue().toString(), list, arrayAdapter);
             }
 
             @Override
@@ -118,21 +114,21 @@ class SongsStorage {
         });
     }
 
-    private static void getVariants2(final String uid, final ArrayList<String> arrayList,
+    private static void getVariants2(final String uid, final List<String> list,
                                      final ArrayAdapter<String> arrayAdapter) {
-        FirebaseDatabase.getInstance().getReference().addValueEventListener(new ValueEventListener() {
+        FirebaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                arrayList.clear();
+                list.clear();
                 dataSnapshot = dataSnapshot.child("songNames")
                         .child(uid);
                 Controller.setRightAnswer(new Random().nextInt(4));
                 for (DataSnapshot c : dataSnapshot.getChildren()) {
-                    arrayList.add(c.getValue().toString());
+                    list.add(c.getValue().toString());
                 }
-                String tmp = arrayList.get(0);
-                arrayList.set(0, arrayList.get(Controller.getRightAnswer()));
-                arrayList.set(Controller.getRightAnswer(),tmp);
+                String tmp = list.get(0);
+                list.set(0, list.get(Controller.getRightAnswer()));
+                list.set(Controller.getRightAnswer(),tmp);
                 arrayAdapter.notifyDataSetChanged();
             }
 

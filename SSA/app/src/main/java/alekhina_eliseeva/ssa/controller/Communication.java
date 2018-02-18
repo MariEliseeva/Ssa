@@ -8,25 +8,24 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import alekhina_eliseeva.ssa.Menu;
 
 class Communication {
-    static void getSuggestList(final ArrayAdapter<String> arrayAdapter,
-                               final ArrayList<String> arrayList) {
+    static void getSuggestList(final ArrayAdapter<String> arrayAdapter, final List<String> list) {
         FirebaseDatabase.getInstance().getReference()
                 .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                arrayList.clear();
+                list.clear();
                 dataSnapshot = dataSnapshot.child("messages")
                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 for (DataSnapshot c : dataSnapshot.getChildren()) {
                     if (c.getKey().equals(" ")) {
                         continue;
                     }
-                    arrayList.add(c.getValue().toString());
+                    list.add(c.getValue().toString());
                 }
                 arrayAdapter.notifyDataSetChanged();
             }
@@ -104,7 +103,7 @@ class Communication {
                 child(emailGood).setValue(result);
     }
 
-    static void getResults(final ArrayAdapter<String> arrayAdapter, final ArrayList<String> arrayList) {
+    static void getResults(final ArrayAdapter<String> arrayAdapter, final List<String> list) {
         StringBuilder emailGood1 = new StringBuilder();
         for (int i = 0; i < FirebaseAuth.getInstance().getCurrentUser().getEmail().length(); i++) {
             if (FirebaseAuth.getInstance().getCurrentUser().getEmail().charAt(i) == '.') {
@@ -118,7 +117,7 @@ class Communication {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        arrayList.clear();
+                        list.clear();
                         for (DataSnapshot c : dataSnapshot.getChildren()) {
                             String email = c.getKey();
                             StringBuilder emailGood2 = new StringBuilder();
@@ -129,7 +128,7 @@ class Communication {
                                     emailGood2.append(email.charAt(i));
                                 }
                             }
-                            arrayList.add(emailGood2.toString().toLowerCase() + " " + c.getValue());
+                            list.add(emailGood2.toString().toLowerCase() + " " + c.getValue());
                         }
                         arrayAdapter.notifyDataSetChanged();
                     }
