@@ -3,6 +3,7 @@ package alekhina_eliseeva.ssa;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,7 @@ public class LogIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         final SharedPreferences sharedPreferences = getSharedPreferences("StoreData", MODE_PRIVATE);
         String name = sharedPreferences.getString("name", "");
         String password = sharedPreferences.getString("password", "");

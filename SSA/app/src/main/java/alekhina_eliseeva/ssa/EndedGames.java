@@ -1,6 +1,7 @@
 package alekhina_eliseeva.ssa;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -18,6 +19,7 @@ public class EndedGames extends AppCompatActivity {
         ArrayAdapter<String> arrayAdapter;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ended_games);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, songNames);
         Controller.getResults(arrayAdapter, songNames);
 

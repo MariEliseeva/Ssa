@@ -3,6 +3,7 @@ package alekhina_eliseeva.ssa;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -71,6 +72,7 @@ public class Menu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         deleteUnnecessaryFiles();
         ListView menuList = (ListView) findViewById(R.id.ListMenu);
         final ArrayList<String> menuString = new ArrayList<>();
@@ -125,6 +127,7 @@ public class Menu extends AppCompatActivity {
                 if (whatToDo.equals("Завершенные игры")) {
                     Intent intent = new Intent(Menu.this, EndedGames.class);
                     startActivity(intent);
+                    finish();
                 }
                 if (whatToDo.equals("Выйти")) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(Menu.this);
