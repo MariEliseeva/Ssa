@@ -26,10 +26,10 @@ public class SongRecording extends AppCompatActivity {
     protected static final int PERMISSION_REQUEST_WRITE = 3;
     protected static int bufferSizeForRecord = 0;
     protected AudioRecord recorder;
-    protected boolean isRecording = false;
-    protected byte[] bufferForSong;
+    protected volatile boolean isRecording = false;
+    protected volatile byte[] bufferForSong;
     protected final int bufferSizeForMusic = 6859776 * 8;
-    protected int countByteSong = 0;
+    protected volatile int countByteSong = 0;
     protected String absolutePathSong;
 
 
