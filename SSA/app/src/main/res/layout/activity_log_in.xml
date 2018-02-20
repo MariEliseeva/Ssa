@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
-    tools:context="alekhina_eliseeva.ssa.LogIn">
+    tools:context="ru.mit.spbau.alekhina_eliseeva.ssa.LogIn">
 
     <EditText
         android:id="@+id/TextAddName"

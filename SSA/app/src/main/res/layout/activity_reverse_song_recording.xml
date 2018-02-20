@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="alekhina_eliseeva.ssa.ReverseSongRecording">
+    tools:context="ru.mit.spbau.alekhina_eliseeva.ssa.ReverseSongRecording">
 
 </android.support.constraint.ConstraintLayout>

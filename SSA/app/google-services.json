@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:366386456869:android:c7afe1decdafdb5f",
         "android_client_info": {
-          "package_name": "alekhina_eliseeva.ssa"
+          "package_name": "ru.mit.spbau.alekhina_eliseeva.ssa"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "366386456869-cisn166ftvd69pk07f6s54fd4v4okfb2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "alekhina_eliseeva.ssa",
+            "package_name": "ru.mit.spbau.alekhina_eliseeva.ssa",
             "certificate_hash": "f3a1343bc071112b1f39b17ab6df7decc5add476"
           }
         },

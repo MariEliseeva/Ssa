@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
     defaultConfig {
-        applicationId "alekhina_eliseeva.ssa"
+        applicationId "ru.mit.spbau.alekhina_eliseeva.ssa"
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
