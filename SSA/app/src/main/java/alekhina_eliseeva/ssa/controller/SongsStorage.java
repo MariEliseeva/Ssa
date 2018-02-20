@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,20 +16,21 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import alekhina_eliseeva.ssa.Applications;
 
 class SongsStorage {
-    private static DatabaseReference FirebaseRef = FirebaseDatabase.getInstance().getReference();
-
+    private static DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
+    private static String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     static void addSong(byte[] data) {
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference()
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        UploadTask uploadTask = storageReference.putBytes(data);
+        UploadTask uploadTask = FirebaseStorage.getInstance().getReference()
+                .child(currentUid).putBytes(data);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
@@ -43,7 +45,7 @@ class SongsStorage {
     static String otherEmail = "";
     static String otherUid = "";
 
-    static void getSong(final Applications activity, final String email) {
+    static void getSong(final ArrayList<Task<byte[]>> tasks, final AtomicBoolean isEnd, final String email) {
         StringBuilder emailGood1 = new StringBuilder();
         for (int i = 0; i < email.length(); i++) {
             if (email.charAt(i) == '.') {
@@ -54,12 +56,15 @@ class SongsStorage {
         }
         final String emailGood = emailGood1.toString().toLowerCase();
         otherEmail = emailGood;
-
-        FirebaseRef.child("UidByEmail")
+        firebaseRef.child("UidByEmail")
                 .child(emailGood).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                getSong1(activity, dataSnapshot.getValue().toString());
+                tasks.add(getSong1(dataSnapshot.getValue().toString()));
+                synchronized (isEnd) {
+                    isEnd.set(true);
+                    isEnd.notify();
+                }
                 otherUid = dataSnapshot.getValue().toString();
             }
 
@@ -70,37 +75,24 @@ class SongsStorage {
         });
     }
 
-    private static void getSong1(final Applications activity, String address) {
+    private static Task<byte[]> getSong1(String address) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(address);
         final long MANY_MEGABYTE = 13230000;
-        storageReference.getBytes(MANY_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                activity.next(bytes);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-            }
-        });
+        return storageReference.getBytes(MANY_MEGABYTE);
     }
 
     static void addNames(String v1, String v2, String v3, String v4) {
-        FirebaseRef.child("songNames")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("s1").setValue(v1);
-        FirebaseRef.child("songNames")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("s2").setValue(v2);
-        FirebaseRef.child("songNames")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("s3").setValue(v3);
-        FirebaseRef.child("songNames")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("s4").setValue(v4);
+        firebaseRef.child("songNames").child(currentUid).child("s1").setValue(v1);
+        firebaseRef.child("songNames").child(currentUid).child("s2").setValue(v2);
+        firebaseRef.child("songNames").child(currentUid).child("s3").setValue(v3);
+        firebaseRef.child("songNames").child(currentUid).child("s4").setValue(v4);
     }
 
 
 
     static void getVariants(final List<String> list, final ArrayAdapter<String> arrayAdapter) {
         final String emailGood = otherEmail;
-        FirebaseRef.child("UidByEmail")
+        firebaseRef.child("UidByEmail")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -116,7 +108,7 @@ class SongsStorage {
 
     private static void getVariants2(final String uid, final List<String> list,
                                      final ArrayAdapter<String> arrayAdapter) {
-        FirebaseRef.addValueEventListener(new ValueEventListener() {
+        firebaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 list.clear();

@@ -6,7 +6,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import alekhina_eliseeva.ssa.Applications;
 import alekhina_eliseeva.ssa.Menu;
@@ -44,8 +46,8 @@ public class Controller {
         Communication.suggest(activity, email);
     }
 
-    public static void getSong(Applications activity, String name) {
-        SongsStorage.getSong(activity, name);
+    public static void getSong(final ArrayList<Task<byte[]>> tasks, final AtomicBoolean isEnd, String name) {
+        SongsStorage.getSong(tasks, isEnd, name);
     }
 
     private static int rightAnswer;
