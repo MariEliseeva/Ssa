@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -13,14 +14,15 @@ import java.util.List;
 import alekhina_eliseeva.ssa.Menu;
 
 class Communication {
+    private static DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
+    private static String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private static String currentEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
     static void getSuggestList(final ArrayAdapter<String> arrayAdapter, final List<String> list) {
-        FirebaseDatabase.getInstance().getReference()
-                .addValueEventListener(new ValueEventListener() {
+        firebaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 list.clear();
-                dataSnapshot = dataSnapshot.child("messages")
-                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                dataSnapshot = dataSnapshot.child("messages").child(currentUid);
                 for (DataSnapshot c : dataSnapshot.getChildren()) {
                     if (c.getKey().equals(" ")) {
                         continue;
@@ -48,7 +50,7 @@ class Communication {
             }
         }
         final String emailGood = emailGood1.toString().toLowerCase();
-        FirebaseDatabase.getInstance().getReference().child("UidByEmail").addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseRef.child("UidByEmail").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
@@ -68,32 +70,27 @@ class Communication {
         });
     }
     private static void suggest2(final String Uid) {
-        FirebaseDatabase.getInstance().getReference().child("messages").
-                child(Uid).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push();
-        FirebaseDatabase.getInstance().getReference().child("messages").
-                child(Uid).child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .setValue(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        firebaseRef.child("messages").child(Uid).child(currentUid).push();
+        firebaseRef.child("messages").child(Uid).child(currentUid).setValue(currentEmail);
     }
 
     static void ignore(String uid) {
         FirebaseDatabase.getInstance().getReference().child("messages")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child(uid).removeValue();
+                .child(currentUid).child(uid).removeValue();
     }
 
     static void cancel(String uid) {
         FirebaseDatabase.getInstance().getReference().child("messages")
-                .child(uid)
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                .child(uid).child(currentUid).removeValue();
     }
 
     static void fixResult(boolean res) {
         StringBuilder emailGood1 = new StringBuilder();
-        for (int i = 0; i < FirebaseAuth.getInstance().getCurrentUser().getEmail().length(); i++) {
-            if (FirebaseAuth.getInstance().getCurrentUser().getEmail().charAt(i) == '.') {
+        for (int i = 0; i < currentEmail.length(); i++) {
+            if (currentEmail.charAt(i) == '.') {
                 emailGood1.append(',');
             } else {
-                emailGood1.append(FirebaseAuth.getInstance().getCurrentUser().getEmail().charAt(i));
+                emailGood1.append(currentEmail.charAt(i));
             }
         }
         final String emailGood = emailGood1.toString().toLowerCase();
@@ -105,11 +102,11 @@ class Communication {
 
     static void getResults(final ArrayAdapter<String> arrayAdapter, final List<String> list) {
         StringBuilder emailGood1 = new StringBuilder();
-        for (int i = 0; i < FirebaseAuth.getInstance().getCurrentUser().getEmail().length(); i++) {
-            if (FirebaseAuth.getInstance().getCurrentUser().getEmail().charAt(i) == '.') {
+        for (int i = 0; i < currentEmail.length(); i++) {
+            if (currentEmail.charAt(i) == '.') {
                 emailGood1.append(',');
             } else {
-                emailGood1.append(FirebaseAuth.getInstance().getCurrentUser().getEmail().charAt(i));
+                emailGood1.append(currentEmail.charAt(i));
             }
         }
         final String emailGood = emailGood1.toString().toLowerCase();
