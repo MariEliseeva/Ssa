@@ -67,4 +67,13 @@ class SaveFile {
         return fileForSave.getAbsolutePath();
     }
 
+    static void addSong(String fileName, byte[] song) {
+        File file = new File(fileName);
+        try (FileOutputStream fos = new FileOutputStream(file, true)) {
+            fos.write(song);
+        } catch (IOException e) {
+            Log.e("ReadBytes", e.getMessage());
+        }
+    }
+
 }

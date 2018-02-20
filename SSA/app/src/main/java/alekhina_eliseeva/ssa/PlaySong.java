@@ -14,11 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-
 import alekhina_eliseeva.ssa.controller.Controller;
 
 
@@ -27,7 +23,6 @@ public class PlaySong extends AppCompatActivity {
     protected Handler handler;
     protected SeekBar seekBar;
     protected String songFile;
-    protected byte[] song;
 
     final Runnable runnable = new Runnable() {
         @Override
@@ -50,35 +45,10 @@ public class PlaySong extends AppCompatActivity {
     }
 
     public void next() {
-        getSong();
-        Controller.addSong(song);
+        Controller.addSong(ReadBytes.getSong(songFile));
         Intent intent = new Intent(PlaySong.this, AnswerOption.class);
         startActivity(intent);
         finish();
-    }
-
-
-    protected void getSong() {
-        File file = new File(songFile);
-        byte[] header = new byte[40];
-        song = new byte[(int) file.length() - 44];
-        try {
-            FileInputStream fis = new FileInputStream(file);
-            int countReadBytes = fis.read(header);
-            if (countReadBytes < header.length) {
-                Log.e("PlaySong", "header read error");
-            }
-            countReadBytes = fis.read(song, 44, song.length - 45);
-            if (countReadBytes < song.length - 45) {
-                Log.e("PlaySong", "song read error");
-            }
-        } catch (IOException e) {
-            Log.e("PlaySong", e.getMessage());
-        }
-        boolean deleted = file.delete();
-        if (!deleted) {
-            Log.e("PlaySong", "can't delete " + file.getAbsolutePath());
-        }
     }
 
     @Override
